@@ -1,8 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import axios from "axios";
+import logo from "./logo.svg";
+import "./App.css";
+
+axios.defaults.baseURL = 'https://alerta-brumadinho-api.herokuapp.com/';
+// axios.defaults.baseURL = '';
 
 function App() {
+  useEffect(() => {
+    axios
+      .get("post")
+      .then((res) => {
+        console.log(res);
+      });
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
