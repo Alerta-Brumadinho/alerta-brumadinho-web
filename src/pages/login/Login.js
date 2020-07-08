@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Input, Button } from "antd";
-import {
-  UserOutlined,
-  LockOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import "./styles.css";
 
@@ -60,12 +55,12 @@ class Login extends Component {
 
         <Row justify="center" style={{ height: "8vh" }}>
           <Col xs={10} sm={8} md={6} lg={4} className="vertical-center">
-            <a href="#" style={{ textDecoration: "underline" }}>
+            <a href="www.google.com" style={{ textDecoration: "underline" }}>
               Esqueceu sua Senha?
             </a>
           </Col>
           <Col xs={10} sm={8} md={6} lg={4} className="vertical-center">
-            <a href="#" style={{ textDecoration: "underline" }}>
+            <a href="www.google.com" style={{ textDecoration: "underline" }}>
               Acessar sem Cadastro
             </a>
           </Col>
