@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Input, Button } from "antd";
-import {
-  UserOutlined,
-  LockOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import "./styles.css";
 
