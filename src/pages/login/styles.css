@@ -1,0 +1,14 @@
+/* body {
+    background-image: url('../../assets/images/testing.svg');
+    background-repeat: no-repeat, no-repeat;
+    background-size: 225%;
+    background-position-y: bottom;
+    background-position-x: -150px;
+} */
+
+.logo {
+    width: 45vw;
+    height: 45vw;
+    max-width: 200px;
+    max-height: 200px;
+  }

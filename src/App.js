@@ -1,28 +1,20 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import "./App.css";
-import { Button } from "antd";
-import 'antd/dist/antd.css';
+import React from "react";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 
-axios.defaults.baseURL = "https://alerta-brumadinho-api.herokuapp.com/";
-// axios.defaults.baseURL = '';
+import "./App.less";
+
+import Login from "./pages/login/Login";
+
+// axios.defaults.baseURL = "https://alerta-brumadinho-api.herokuapp.com/";
 
 function App() {
-  useEffect(() => {
-    axios.get("post").then((res) => {
-      console.log(res);
-    });
-  }, []);
-
   return (
-    <div className="App">
-      <Button type="primary">Primary Button</Button>
-      <Button>Default Button</Button>
-      <Button type="dashed">Dashed Button</Button>
-      <br />
-      <Button type="text">Text Button</Button>
-      <Button type="link">Link Button</Button>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login" exact component={Login} />
+        <Route path="/" exact component={Login} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
