@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Row, Col, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
@@ -91,7 +92,7 @@ class Login extends Component {
               onClick={this.register}
               block
             >
-              Cadastrar
+              <Link to="/register/profile">Cadastrar</Link>
             </Button>
           </Col>
         </Row>

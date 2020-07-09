@@ -1,0 +1,63 @@
+.height-button {
+  height: fit-content;
+  white-space: normal;
+}
+
+.title-height-button {
+  text-align: left;
+  font-weight: bold;
+  margin: 8px 0 4px 0;
+}
+
+.text-height-button {
+  text-align: left;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+.height-button-all {
+  display: flex;
+}
+
+.height-button-content {
+  flex: 0 0 85%;
+}
+
+.height-button-icon {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 500px) {
+  .collaboration {
+    background-image: linear-gradient(
+        to right,
+        rgba(83, 173, 62, 0.88),
+        rgba(31, 78, 18, 0.88)
+      ),
+      url("../../../assets/images/collaboration.jpg");
+    background-size: cover;
+  }
+
+  .people {
+    background-image: linear-gradient(
+        to right,
+        rgba(83, 173, 62, 0.88),
+        rgba(31, 78, 18, 0.88)
+      ),
+      url("../../../assets/images/people.jpg");
+    background-size: cover;
+  }
+
+  .analisys {
+    background-image: linear-gradient(
+        to right,
+        rgba(83, 173, 62, 0.88),
+        rgba(31, 78, 18, 0.88)
+      ),
+      url("../../../assets/images/analisys.jpg");
+    background-size: cover;
+  }
+}
