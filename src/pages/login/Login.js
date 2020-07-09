@@ -26,16 +26,16 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <Row justify="center" gutter={[0,24]}>
+        <Row justify="center" gutter={[0, { xs: 24, sm: 32, md: 40, lg: 48 }]}>
           <Col span={24}></Col>
         </Row>
-        <Row justify="center" gutter={[0,24]}>
+        <Row justify="center" gutter={[0, { xs: 24, sm: 32, md: 40, lg: 48 }]}>
           <Col span={24} className="vertical-center">
             <img src={logo} className="logo" alt="Alerta Brumadinho" />
           </Col>
         </Row>
 
-        <Row justify="center" gutter={[0,8]}>
+        <Row justify="center" gutter={[0, { xs: 8, sm: 8, md: 12, lg: 12 }]}>
           <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
             <Input
               size="large"
@@ -46,7 +46,7 @@ class Login extends Component {
           </Col>
         </Row>
 
-        <Row justify="center" gutter={[0,12]}>
+        <Row justify="center" gutter={[0, { xs: 12, sm: 12, md: 16, lg: 16 }]}>
           <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
             <Input.Password
               size="large"
@@ -56,7 +56,7 @@ class Login extends Component {
           </Col>
         </Row>
 
-        <Row justify="center" gutter={[0,48]}>
+        <Row justify="center" gutter={[0, { xs: 48, sm: 56, md: 64, lg: 72 }]}>
           <Col xs={10} sm={8} md={6} lg={4} className="vertical-center">
             <a href="www.google.com" style={{ textDecoration: "underline" }}>
               Esqueceu sua Senha?
@@ -69,7 +69,7 @@ class Login extends Component {
           </Col>
         </Row>
 
-        <Row justify="center" gutter={[0,12]}>
+        <Row justify="center" gutter={[0, { xs: 8, sm: 8, md: 12, lg: 12 }]}>
           <Col xs={20} sm={16} md={12} lg={8} className="vertical-bottom">
             <Button
               type="primary"
@@ -83,7 +83,7 @@ class Login extends Component {
           </Col>
         </Row>
 
-        <Row justify="center" gutter={[0,6]}>
+        <Row justify="center" gutter={[0, { xs: 24, sm: 32, md: 40, lg: 48 }]}>
           <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
             <Button
               size="large"
