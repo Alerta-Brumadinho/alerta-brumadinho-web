@@ -27,10 +27,10 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <Row justify="center" gutter={[0, { xs: 24, sm: 32, md: 40, lg: 48 }]}>
+        <Row justify="center" gutter={[0, { xs: 24, sm: 24, md: 32, lg: 32 }]}>
           <Col span={24}></Col>
         </Row>
-        <Row justify="center" gutter={[0, { xs: 24, sm: 32, md: 40, lg: 48 }]}>
+        <Row justify="center" gutter={[0, { xs: 24, sm: 24, md: 32, lg: 32 }]}>
           <Col span={24} className="vertical-center">
             <img src={logo} className="logo" alt="Alerta Brumadinho" />
           </Col>
@@ -41,7 +41,6 @@ class Login extends Component {
             <Input
               size="large"
               placeholder="E-mail ou Telefone"
-              style={{ fontStyle: "italic" }}
               prefix={<UserOutlined style={{ color: "#338221" }} />}
             />
           </Col>
@@ -84,7 +83,7 @@ class Login extends Component {
           </Col>
         </Row>
 
-        <Row justify="center" gutter={[0, { xs: 24, sm: 32, md: 40, lg: 48 }]}>
+        <Row justify="center" gutter={[0, 24]}>
           <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
             <Button
               size="large"

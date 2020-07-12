@@ -13,13 +13,13 @@ const RegisterProfile = () => {
       </Row>
 
       <Row justify="center" gutter={[0, { xs: 16, sm: 16, md: 32, lg: 32 }]}>
-        <Col xs={16} sm={16} md={12} lg={8} className="vertical-center">
+        <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
           <div className="section-title">Qual seu tipo de perfil?</div>
         </Col>
       </Row>
 
       <Row justify="center" gutter={[0, { xs: 16, sm: 16, md: 20, lg: 20 }]}>
-        <Col xs={16} sm={16} md={12} lg={8} className="vertical-center">
+        <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
           <Button
             type="primary"
             size="large"
@@ -31,8 +31,7 @@ const RegisterProfile = () => {
                 <div className="height-button-content">
                   <p className="title-height-button">Usuário Comum</p>
                   <p className="text-height-button">
-                    Quero registar denúncias e ver denúncias de outros usuários
-                    e testar tal.
+                    Quero registar denúncias e ver denúncias de outros usuários.
                   </p>
                 </div>
                 <div className="height-button-icon">
@@ -45,7 +44,7 @@ const RegisterProfile = () => {
       </Row>
 
       <Row justify="center" gutter={[0, { xs: 16, sm: 16, md: 20, lg: 20 }]}>
-        <Col xs={16} sm={16} md={12} lg={8} className="vertical-center">
+        <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
           <Button
             type="primary"
             size="large"
@@ -70,7 +69,7 @@ const RegisterProfile = () => {
       </Row>
 
       <Row justify="center" gutter={[0, { xs: 16, sm: 16, md: 20, lg: 20 }]}>
-        <Col xs={16} sm={16} md={12} lg={8} className="vertical-center">
+        <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
           <Button
             type="primary"
             size="large"
