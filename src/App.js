@@ -1,25 +1,43 @@
 import React from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import axios from "axios";
+import { Switch, Route, BrowserRouter, useLocation } from "react-router-dom";
+import { useTransition, animated } from "react-spring";
 
 import "./App.less";
 
 import Login from "./pages/login/Login";
 import RegisterProfile from "./pages/register/profile/RegisterProfile";
-import RegisterInfo from "./pages/register/info/RegisterInfo";
+import RegisterUser from "./pages/register/user/RegisterUser";
+import RegisterInstitution from "./pages/register/institution/RegisterInstitution";
 
-// axios.defaults.baseURL = "https://alerta-brumadinho-api.herokuapp.com/";
+axios.defaults.baseURL = "https://alerta-brumadinho-api.herokuapp.com";
+// axios.defaults.baseURL = "http://localhost:3000";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Switch>
+  const location = useLocation();
+  console.log(location);
+  const transitions = useTransition(location, (location) => location.pathname, {
+    from: { opacity: 0, transform: "translate3d(100%,0,0)" },
+    enter: { opacity: 1, transform: "translate3d(0,0,0)" },
+    leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
+    trail: 0
+  });
+
+  return transitions.map(({ item: location, props, key }) => (
+    <animated.div key={key} style={props}>
+      <Switch location={location}>
+        <Route path="/" exact component={Login} />
         <Route path="/login" exact component={Login} />
         <Route path="/register/profile" exact component={RegisterProfile} />
-        <Route path="/register/info" exact component={RegisterInfo} />
-        <Route path="/" exact component={Login} />
+        <Route path="/register/user" exact component={RegisterUser} />
+        <Route
+          path="/register/institution"
+          exact
+          component={RegisterInstitution}
+        />
       </Switch>
-    </BrowserRouter>
-  );
+    </animated.div>
+  ));
 }
 
 export default App;

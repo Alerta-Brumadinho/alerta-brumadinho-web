@@ -26,7 +26,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{height: '100vh'}}>
         <Row justify="center" gutter={[0, { xs: 24, sm: 24, md: 32, lg: 32 }]}>
           <Col span={24}></Col>
         </Row>

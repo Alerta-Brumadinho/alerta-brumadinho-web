@@ -26,7 +26,7 @@ const RegisterProfile = () => {
             className="primary-button height-button collaboration"
             block
           >
-            <Link to={{ pathname: "/register/info", profileType: "user" }}>
+            <Link to={{ pathname: "/register/user", profileType: "common" }}>
               <div className="height-button-all">
                 <div className="height-button-content">
                   <p className="title-height-button">Usuário Comum</p>
@@ -51,7 +51,7 @@ const RegisterProfile = () => {
             className="primary-button height-button people"
             block
           >
-            <Link to={{ pathname: "/register/info", profileType: "ong" }}>
+            <Link to={{ pathname: "/register/user", profileType: "ongAgent" }}>
               <div className="height-button-all">
                 <div className="height-button-content">
                   <p className="title-height-button">Org. Não-Governamental</p>
@@ -76,7 +76,7 @@ const RegisterProfile = () => {
             className="primary-button height-button analisys"
             block
           >
-            <Link to={{ pathname: "/register/info", profileType: "public" }}>
+            <Link to={{ pathname: "/register/user", profileType: "governmentAgent" }}>
               <div className="height-button-all">
                 <div className="height-button-content">
                   <p className="title-height-button">Órgão Público Ambiental</p>
