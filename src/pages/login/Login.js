@@ -114,7 +114,7 @@ class Login extends Component {
               onClick={this.register}
               block
             >
-              <Link to="/register/profile">Cadastre-se</Link>
+              <Link to="/register">Cadastre-se</Link>
             </Button>
           </Row>
 
@@ -133,74 +133,6 @@ class Login extends Component {
             </Col>
           </Row>
         </Card>
-        {/* <Row justify="center" gutter={[0, { xs: 24, sm: 24, md: 32, lg: 32 }]}>
-          <Col span={24}></Col>
-        </Row>
-        <Row justify="center" gutter={[0, { xs: 24, sm: 24, md: 32, lg: 32 }]}>
-          <Col span={24} className="vertical-center">
-            <img src={logo} className="logo" alt="Alerta Brumadinho" />
-          </Col>
-        </Row>
-
-        <Row justify="center" gutter={[0, { xs: 8, sm: 8, md: 12, lg: 12 }]}>
-          <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
-            <Input
-              size="large"
-              placeholder="E-mail ou Telefone"
-              prefix={<UserOutlined style={{ color: "#338221" }} />}
-            />
-          </Col>
-        </Row>
-
-        <Row justify="center" gutter={[0, { xs: 24, sm: 28, md: 32, lg: 36 }]}>
-          <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
-            <Input.Password
-              size="large"
-              placeholder="Senha"
-              prefix={<LockOutlined style={{ color: "#338221" }} />}
-            />
-          </Col>
-        </Row>
-
-        <Row justify="center" gutter={[0, { xs: 48, sm: 56, md: 64, lg: 72 }]}>
-          <Col xs={10} sm={8} md={6} lg={4} className="vertical-center">
-            <a href="www.google.com" style={{ textDecoration: "underline" }}>
-              Esqueceu sua Senha?
-            </a>
-          </Col>
-          <Col xs={10} sm={8} md={6} lg={4} className="vertical-center">
-            <a href="www.google.com" style={{ textDecoration: "underline" }}>
-              Acessar sem Cadastro
-            </a>
-          </Col>
-        </Row>
-
-        <Row justify="center" gutter={[0, { xs: 8, sm: 8, md: 12, lg: 12 }]}>
-          <Col xs={20} sm={16} md={12} lg={8} className="vertical-bottom">
-            <Button
-              type="primary"
-              size="large"
-              className="primary-button"
-              onClick={this.login}
-              block
-            >
-              Entrar
-            </Button>
-          </Col>
-        </Row>
-
-        <Row justify="center" gutter={[0, 24]}>
-          <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
-            <Button
-              size="large"
-              className="secondary-button"
-              onClick={this.register}
-              block
-            >
-              <Link to="/register/profile">Cadastrar</Link>
-            </Button>
-          </Col>
-        </Row> */}
       </div>
     );
   }

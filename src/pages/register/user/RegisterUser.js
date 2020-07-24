@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MaskedInput from "antd-mask-input";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import {
   Row,
   Col,
@@ -41,12 +41,28 @@ const logo = require("../../../assets/images/logo_512.png");
 
 const RegisterUser = (props) => {
   const [nav, setNav] = useState(null);
+  const [institutions, setInstitutions] = useState(null);
   const [submit, setSubmit] = useState({ disabled: false, loading: false });
   const [photo, setPhoto] = useState({
     url: "",
     loading: false,
     file: null,
   });
+
+  useEffect(() => {
+    if (!props.location.profileType) {
+      setNav("/register");
+    } else {
+      axios
+        .get("/institutions")
+        .then((res) => {
+          setInstitutions(res.data);
+        })
+        .catch((error) => {
+          errorNotification();
+        });
+    }
+  }, [props.location.profileType]);
 
   const beforeUpload = (file) => {
     if (
@@ -62,8 +78,7 @@ const RegisterUser = (props) => {
   };
 
   const uploadImage = ({ file, onSuccess }) => {
-    console.log(file);
-    setPhoto({ ...photo, loading: true });
+    setPhoto({ url: "", file: null, loading: true });
     setSubmit({ disabled: true });
 
     const formData = new FormData();
@@ -103,11 +118,22 @@ const RegisterUser = (props) => {
       type: props.location.profileType,
     };
 
+    console.log(finalForm);
+
     axios
       .post("/users/create", finalForm)
       .then(function (res) {
-        successNotification("Seu cadastro foi realizado com sucesso.");
+        if (props.location.profileType === "common") {
+          successNotification(
+            "Seu cadastro foi realizado com sucesso! Agora você pode se logar."
+          );
+        } else {
+          successNotification(
+            "Seu cadastro foi realizado com sucesso! Aguarde que entraremos em contato para validar sua conta."
+          );
+        }
         setSubmit({ ...submit, loading: false });
+        setNav("/");
       })
       .catch(function (error) {
         if (error.response.status === 400) {
@@ -130,7 +156,7 @@ const RegisterUser = (props) => {
               <Button
                 shape="circle"
                 onClick={() => {
-                  setNav("/register/profile");
+                  setNav("/register");
                 }}
               >
                 <LeftOutlined />
@@ -191,9 +217,22 @@ const RegisterUser = (props) => {
                       notFoundContent={<div>Nenhum resultado</div>}
                       filterOption={true}
                     >
-                      <Option value="jack">Jack</Option>
-                      <Option value="lucy">Lucy</Option>
-                      <Option value="tom">Tom</Option>
+                      {institutions
+                        ? institutions.map((institution) => {
+                            if (institution.verified === "verified") {
+                              return (
+                                <Option
+                                  key={institution.id}
+                                  value={institution.id}
+                                >
+                                  {institution.name}
+                                </Option>
+                              );
+                            }
+
+                            return null;
+                          })
+                        : null}
                     </Select>
                   </Form.Item>
 
@@ -205,12 +244,19 @@ const RegisterUser = (props) => {
                       span={24}
                       style={{ textAlign: "right", marginTop: "-20px" }}
                     >
-                      <a
+                      {/* <a
                         href="/register/institution"
                         style={{ textDecoration: "underline" }}
+                      > */}
+                      <Link
+                        to={{
+                          pathname: "/register/institution",
+                          profileType: `${props.location.profileType}`,
+                        }}
                       >
                         Não encontrou sua Instituição? Clique aqui!
-                      </a>
+                      </Link>
+                      {/* </a> */}
                     </Col>
                   </Row>
                 </div>
@@ -512,7 +558,7 @@ const RegisterUser = (props) => {
               </Form.Item>
 
               {/* Submit Button */}
-              <Form.Item>
+              <Form.Item style={{ marginBottom: "0" }}>
                 <Button
                   type="primary"
                   size="large"

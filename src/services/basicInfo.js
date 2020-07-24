@@ -45,7 +45,7 @@ export const verificationStatus = {
 };
 
 // Tipos de Instituições
-export const intitutionType = {
+export const institutionType = {
     ong: { type: 'ong', name: 'Organização Não-Governamental'},
     government: { type: 'government', name: 'Entidade Governamental'},
 }

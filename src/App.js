@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 // import { useTransition, animated } from "react-spring";
 
 import "./App.less";
@@ -26,14 +26,17 @@ function App() {
     // <animated.div key={key} style={props}>
     <Switch location={location}>
       <Route path="/" exact component={Login} />
-      <Route path="/login" exact component={Login} />
-      <Route path="/register/profile" exact component={RegisterProfile} />
+      <Route path="/register" exact component={RegisterProfile} />
       <Route path="/register/user" exact component={RegisterUser} />
-      <Route
-        path="/register/institution"
-        exact
-        component={RegisterInstitution}
-      />
+      <Route path="/register/institution" exact component={RegisterInstitution} />
+
+      <Route path="/register/*" exact component={RegisterProfile}>
+        <Redirect to="/register" />
+      </Route>
+
+      <Route path="/*" exact component={Login}>
+        <Redirect to="/" />
+      </Route>
     </Switch>
     // </animated.div>
   );
