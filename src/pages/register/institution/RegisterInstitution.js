@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Input, Button, Upload, Select, message } from "antd";
+import { Row, Col, Form, Input, Button, Upload, message } from "antd";
 import MaskedInput from "antd-mask-input";
 import {
   UserOutlined,
@@ -14,7 +14,6 @@ import {
 
 import "./styles.css";
 
-const { Option } = Select;
 
 const RegisterInstitution = () => {
   const [photo, setPhoto] = useState({

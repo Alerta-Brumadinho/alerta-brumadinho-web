@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Switch, Route, useLocation } from "react-router-dom";
-import { useTransition, animated } from "react-spring";
+// import { useTransition, animated } from "react-spring";
 
 import "./App.less";
 
@@ -15,12 +15,12 @@ axios.defaults.baseURL = "https://alerta-brumadinho-api.herokuapp.com";
 
 function App() {
   const location = useLocation();
-  const transitions = useTransition(location, (location) => location.pathname, {
-    from: { opacity: 0, transform: "translate3d(100%,0,0)" },
-    enter: { opacity: 1, transform: "translate3d(0,0,0)" },
-    leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
-    trail: 0,
-  });
+  // const transitions = useTransition(location, (location) => location.pathname, {
+  //   from: { opacity: 0, transform: "translate3d(100%,0,0)" },
+  //   enter: { opacity: 1, transform: "translate3d(0,0,0)" },
+  //   leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
+  //   trail: 0,
+  // });
 
   return (
     // <animated.div key={key} style={props}>
