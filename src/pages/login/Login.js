@@ -26,7 +26,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div style={{height: '100vh'}}>
+      <div>
         <Row justify="center" gutter={[0, { xs: 24, sm: 24, md: 32, lg: 32 }]}>
           <Col span={24}></Col>
         </Row>
@@ -46,7 +46,7 @@ class Login extends Component {
           </Col>
         </Row>
 
-        <Row justify="center" gutter={[0, { xs: 12, sm: 12, md: 16, lg: 16 }]}>
+        <Row justify="center" gutter={[0, { xs: 24, sm: 28, md: 32, lg: 36 }]}>
           <Col xs={20} sm={16} md={12} lg={8} className="vertical-center">
             <Input.Password
               size="large"

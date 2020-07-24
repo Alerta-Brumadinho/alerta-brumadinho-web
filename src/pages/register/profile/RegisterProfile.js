@@ -7,7 +7,7 @@ import "./styles.css";
 
 const RegisterProfile = () => {
   return (
-    <div>
+    <div style={{height: '100vh'}}>
       <Row justify="center" gutter={[0, { xs: 32, sm: 40, md: 48, lg: 80 }]}>
         <Col span={24}></Col>
       </Row>

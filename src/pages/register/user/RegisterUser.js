@@ -30,9 +30,9 @@ const RegisterUser = (props) => {
     file: null,
   });
 
-  useEffect(() => {
-    successNotification();
-  }, []);
+  // useEffect(() => {
+  //   successNotification();
+  // }, []);
 
   const [submit, setSubmit] = useState({ disabled: false, loading: false });
 
@@ -109,7 +109,7 @@ const RegisterUser = (props) => {
   };
 
   return (
-    <div>
+    <div style={{height: '100vh'}}>
       {/* Space */}
       <Row justify="center" gutter={[0, { xs: 32, sm: 40, md: 48, lg: 80 }]}>
         <Col span={24}></Col>
