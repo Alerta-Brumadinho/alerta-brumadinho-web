@@ -122,14 +122,14 @@ class Login extends Component {
 
           <Row justify="center" style={{ marginTop: 30 }}>
             <Col span={12} style={{ textAlign: "center" }}>
-              <a href="www.google.com" style={{ textDecoration: "underline" }}>
+              <Link to="/forgot" style={{ textDecoration: "underline" }}>
                 Esqueceu sua Senha?
-              </a>
+              </Link>
             </Col>
             <Col span={12} style={{ textAlign: "center" }}>
-              <a href="www.google.com" style={{ textDecoration: "underline" }}>
+              <Link to="/feed" style={{ textDecoration: "underline" }}>
                 Acessar sem Conta
-              </a>
+              </Link>
             </Col>
           </Row>
         </Card>

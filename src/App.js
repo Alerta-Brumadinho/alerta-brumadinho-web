@@ -9,6 +9,8 @@ import Login from "./pages/login/Login";
 import RegisterProfile from "./pages/register/profile/RegisterProfile";
 import RegisterUser from "./pages/register/user/RegisterUser";
 import RegisterInstitution from "./pages/register/institution/RegisterInstitution";
+import ForgotPassword from "./pages/password/forgot/ForgotPassword";
+import ResetPassword from "./pages/password/reset/ResetPassword";
 
 axios.defaults.baseURL = "https://alerta-brumadinho-api.herokuapp.com";
 // axios.defaults.baseURL = "http://localhost:3000";
@@ -29,6 +31,9 @@ function App() {
       <Route path="/register" exact component={RegisterProfile} />
       <Route path="/register/user" exact component={RegisterUser} />
       <Route path="/register/institution" exact component={RegisterInstitution} />
+
+      <Route path="/forgot" exact component={ForgotPassword} />
+      <Route path="/reset" exact component={ResetPassword} />
 
       <Route path="/register/*" exact component={RegisterProfile}>
         <Redirect to="/register" />
