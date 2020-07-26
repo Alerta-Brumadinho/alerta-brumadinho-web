@@ -212,6 +212,7 @@ const RegisterUser = (props) => {
                       showSearch
                       prefix={<UserOutlined />}
                       placeholder="Selecione sua Instituição"
+                      getPopupContainer={(trigger) => trigger.parentElement}
                       optionFilterProp="children"
                       size="large"
                       notFoundContent={<div>Nenhum resultado</div>}
@@ -433,6 +434,7 @@ const RegisterUser = (props) => {
                   showSearch
                   prefix={<UserOutlined />}
                   placeholder="MG - Minas Gerais"
+                  getPopupContainer={(trigger) => trigger.parentElement}
                   optionFilterProp="children"
                   size="large"
                   notFoundContent={<div> Nenhum resultado </div>}
@@ -551,7 +553,9 @@ const RegisterUser = (props) => {
                   ) : (
                     <div>
                       {photo.loading ? <LoadingOutlined /> : <PlusOutlined />}
-                      <div className="ant-upload-text">Adicionar</div>
+                      <div className="ant-upload-text">
+                        {photo.loading ? "Adicionando..." : "Adicionar"}
+                      </div>
                     </div>
                   )}
                 </Upload>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Row, Col, Button, Card, Typography, Divider, Input, Form } from "antd";
 import { Redirect } from "react-router-dom";
 import {
@@ -6,6 +7,10 @@ import {
   LeftOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import {
+  successNotification,
+  errorNotification,
+} from "../../../services/messages";
 
 import "./styles.css";
 
@@ -14,9 +19,27 @@ const logo = require("../../../assets/images/logo_512.png");
 
 const ForgotPassword = () => {
   const [nav, setNav] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const sendResetPasswordEmail = () => {
-    console.log("reset passwd");
+  const sendResetPasswordEmail = (values) => {
+    const { email } = values;
+    setLoading(true);
+
+    axios
+      .post("/users/forgotPassword", { email })
+      .then((res) => {
+        setLoading(false);
+        successNotification(
+          "E-mail enviado com sucesso! Verifique sua Caixa de Entrada e cheque também a Caixa de Spam."
+        );
+        setNav("/");
+      })
+      .catch((error) => {
+        setLoading(false);
+        errorNotification(
+          "Este e-mail não está cadastrado em nosso banco de dados."
+        );
+      });
   };
 
   if (nav) return <Redirect to={nav} />;
@@ -98,6 +121,7 @@ const ForgotPassword = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
+                loading={loading}
                 className="primary-button"
                 block
               >

@@ -26,11 +26,16 @@ function App() {
 
   return (
     // <animated.div key={key} style={props}>
+
     <Switch location={location}>
       <Route path="/" exact component={Login} />
       <Route path="/register" exact component={RegisterProfile} />
       <Route path="/register/user" exact component={RegisterUser} />
-      <Route path="/register/institution" exact component={RegisterInstitution} />
+      <Route
+        path="/register/institution"
+        exact
+        component={RegisterInstitution}
+      />
 
       <Route path="/forgot" exact component={ForgotPassword} />
       <Route path="/reset" exact component={ResetPassword} />

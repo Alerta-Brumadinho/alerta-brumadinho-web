@@ -306,6 +306,7 @@ const RegisterInstitution = (props) => {
                   showSearch
                   prefix={<UserOutlined />}
                   placeholder="MG - Minas Gerais"
+                  getPopupContainer={(trigger) => trigger.parentElement}
                   optionFilterProp="children"
                   size="large"
                   notFoundContent={<div> Nenhum resultado </div>}

@@ -1,21 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Button, Card, Typography, Divider, Input, Form } from "antd";
 import { Redirect } from "react-router-dom";
 import { LeftOutlined, LockOutlined } from "@ant-design/icons";
+import axios from "axios";
+import qs from "qs";
+import {
+  successNotification,
+  errorNotification,
+} from "../../../services/messages";
 
 import "./styles.css";
 
 const { Title, Text } = Typography;
 const logo = require("../../../assets/images/logo_512.png");
 
-const ResetPassword = () => {
+const ResetPassword = (props) => {
   const [nav, setNav] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [validatingToken, setValidatingToken] = useState(true);
 
-  const resetPassword = () => {
-    console.log("reset passwd");
+  useEffect(() => {
+    const { token } = qs.parse(props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+
+    if (token) {
+      axios
+        .post("users/confirmToken", { token })
+        .then((res) => {
+          setUser(res.data.user);
+          setValidatingToken(false);
+        })
+        .catch((error) => {
+          setNav("/");
+        });
+    } else {
+      setNav("/");
+    }
+  }, [props.location.search]);
+
+  const resetPassword = (values) => {
+    const { password } = values;
+    setLoading(true);
+
+    axios
+      .put(`users/${user.cpf}`, { password })
+      .then(() => {
+        setLoading(false);
+        successNotification(
+          "Sua senha foi alterada com sucesso! Agora você pode se logar."
+        );
+        setNav("/");
+      })
+      .catch((error) => {
+        setLoading(false);
+        errorNotification();
+      });
   };
 
   if (nav) return <Redirect to={nav} />;
+  else if (validatingToken) return null;
   else {
     return (
       <div className="card-container">
@@ -125,6 +170,7 @@ const ResetPassword = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
+                loading={loading}
                 className="primary-button"
                 block
               >
