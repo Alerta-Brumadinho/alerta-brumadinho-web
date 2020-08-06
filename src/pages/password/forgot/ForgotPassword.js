@@ -7,12 +7,13 @@ import {
   LeftOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+
+import "./styles.css";
 import {
   successNotification,
   errorNotification,
 } from "../../../services/messages";
 
-import "./styles.css";
 
 const { Title, Text } = Typography;
 const logo = require("../../../assets/images/logo_512.png");
@@ -28,11 +29,11 @@ const ForgotPassword = () => {
     axios
       .post("/users/forgotPassword", { email })
       .then((res) => {
+        setNav("/");
         setLoading(false);
         successNotification(
           "E-mail enviado com sucesso! Verifique sua Caixa de Entrada e cheque também a Caixa de Spam."
         );
-        setNav("/");
       })
       .catch((error) => {
         setLoading(false);
@@ -58,6 +59,7 @@ const ForgotPassword = () => {
                 <LeftOutlined />
               </Button>
             </Col>
+
             <Col span={6} style={{ textAlign: "right" }}>
               <img src={logo} className="logo-small" alt="Alerta Brumadinho" />
             </Col>

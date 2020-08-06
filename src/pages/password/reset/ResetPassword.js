@@ -4,12 +4,12 @@ import { Redirect } from "react-router-dom";
 import { LeftOutlined, LockOutlined } from "@ant-design/icons";
 import axios from "axios";
 import qs from "qs";
+
+import "./styles.css";
 import {
   successNotification,
   errorNotification,
 } from "../../../services/messages";
-
-import "./styles.css";
 
 const { Title, Text } = Typography;
 const logo = require("../../../assets/images/logo_512.png");
@@ -76,6 +76,7 @@ const ResetPassword = (props) => {
                 <LeftOutlined />
               </Button>
             </Col>
+
             <Col span={6} style={{ textAlign: "right" }}>
               <img src={logo} className="logo-small" alt="Alerta Brumadinho" />
             </Col>
@@ -167,12 +168,12 @@ const ResetPassword = (props) => {
 
             <Form.Item style={{ paddingTop: "16px" }}>
               <Button
+                block
+                size="large"
                 type="primary"
                 htmlType="submit"
-                size="large"
                 loading={loading}
                 className="primary-button"
-                block
               >
                 Redefinir Senha
               </Button>

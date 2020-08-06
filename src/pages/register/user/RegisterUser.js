@@ -24,22 +24,28 @@ import {
   SolutionOutlined,
   LoadingOutlined,
   PlusOutlined,
-  PushpinOutlined,
   LeftOutlined,
 } from "@ant-design/icons";
 
-import { ufs, verificationStatus } from "../../../services/basicInfo";
+import "./styles.css";
+import { verificationStatus, warningTexts } from "../../../services/basicInfo";
 import {
   successNotification,
   errorNotification,
 } from "../../../services/messages";
-import "./styles.css";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
 const logo = require("../../../assets/images/logo_512.png");
 
 const RegisterUser = (props) => {
+  const [ufs, setUfs] = useState([]);
+  const [selectedUf, setSelectedUf] = useState({ key: null, value: null });
+  const [cities, setCities] = useState([]);
+
+  const [ufsLoading, setUfsLoading] = useState(false);
+  const [citiesLoading, setCitiesLoading] = useState(false);
+
   const [nav, setNav] = useState(null);
   const [institutions, setInstitutions] = useState(null);
   const [submit, setSubmit] = useState({ disabled: false, loading: false });
@@ -48,6 +54,42 @@ const RegisterUser = (props) => {
     loading: false,
     file: null,
   });
+
+  useEffect(() => {
+    setUfsLoading(true);
+
+    axios
+      .get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/")
+      .then((res) => {
+        setUfsLoading(false);
+        setUfs(res.data.sort((a, b) => a.sigla.localeCompare(b.sigla)));
+      })
+      .catch((error) => {
+        setUfsLoading(false);
+        errorNotification(
+          "Erro ao carregar a lista de estados do Brasil. Por favor, atualize a página!"
+        );
+      });
+  }, []);
+
+  useEffect(() => {
+    setCitiesLoading(true);
+
+    axios
+      .get(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf.key}/municipios`
+      )
+      .then((res) => {
+        setCitiesLoading(false);
+        setCities(res.data);
+      })
+      .catch((error) => {
+        setCitiesLoading(false);
+        errorNotification(
+          "Erro ao carregar a lista de municípios deste estado. Por favor, atualize a página!"
+        );
+      });
+  }, [selectedUf]);
 
   useEffect(() => {
     if (!props.location.profileType) {
@@ -153,15 +195,24 @@ const RegisterUser = (props) => {
         <Card className="card-box card-register" bordered={false}>
           <Row justify="center" gutter={16} style={{ paddingBottom: "16px" }}>
             <Col span={4} style={{ alignSelf: "center" }}>
-              <Button
-                shape="circle"
-                onClick={() => {
-                  setNav("/register");
-                }}
-              >
-                <LeftOutlined />
+              <Button shape="circle">
+                <Link
+                  to={{
+                    pathname:
+                      props.location.profileType === "common"
+                        ? "/register"
+                        : "/register/warning",
+                    profileType: props.location.profileType,
+                    warningText: warningTexts.createAgentAccount,
+                    futurePath: "/register/user",
+                    backPath: "/register",
+                  }}
+                >
+                  <LeftOutlined />
+                </Link>
               </Button>
             </Col>
+
             <Col span={6} style={{ textAlign: "right" }}>
               <img src={logo} className="logo-small" alt="Alerta Brumadinho" />
             </Col>
@@ -215,12 +266,17 @@ const RegisterUser = (props) => {
                       getPopupContainer={(trigger) => trigger.parentElement}
                       optionFilterProp="children"
                       size="large"
-                      notFoundContent={<div>Nenhum resultado</div>}
+                      notFoundContent={<div>Nenhuma Instituição</div>}
                       filterOption={true}
                     >
                       {institutions
                         ? institutions.map((institution) => {
-                            if (institution.verified === "verified") {
+                            if (
+                              institution.verified === "verified" &&
+                              props.location.profileType.startsWith(
+                                institution.type
+                              )
+                            ) {
                               return (
                                 <Option
                                   key={institution.id}
@@ -245,19 +301,17 @@ const RegisterUser = (props) => {
                       span={24}
                       style={{ textAlign: "right", marginTop: "-20px" }}
                     >
-                      {/* <a
-                        href="/register/institution"
-                        style={{ textDecoration: "underline" }}
-                      > */}
                       <Link
                         to={{
-                          pathname: "/register/institution",
-                          profileType: `${props.location.profileType}`,
+                          pathname: "/register/warning",
+                          profileType: props.location.profileType,
+                          warningText: warningTexts.createInstitution,
+                          futurePath: "/register/institution",
+                          backPath: "/register/user",
                         }}
                       >
                         Não encontrou sua Instituição? Clique aqui!
                       </Link>
-                      {/* </a> */}
                     </Col>
                   </Row>
                 </div>
@@ -432,18 +486,18 @@ const RegisterUser = (props) => {
               >
                 <Select
                   showSearch
-                  prefix={<UserOutlined />}
                   placeholder="MG - Minas Gerais"
                   getPopupContainer={(trigger) => trigger.parentElement}
                   optionFilterProp="children"
+                  loading={ufsLoading}
                   size="large"
-                  notFoundContent={<div> Nenhum resultado </div>}
+                  notFoundContent={<div> Nenhum Estado </div>}
                   filterOption={true}
+                  onSelect={(value, option) => setSelectedUf(option)}
                 >
                   {ufs.map((uf) => (
-                    <Option key={uf.value} value={uf.value}>
-                      {" "}
-                      {uf.value} - {uf.name}
+                    <Option key={uf.id} value={uf.sigla}>
+                      {uf.sigla} - {uf.nome}
                     </Option>
                   ))}
                 </Select>
@@ -456,21 +510,27 @@ const RegisterUser = (props) => {
                 hasFeedback
                 rules={[
                   {
-                    whitespace: true,
-                    message: "Por favor, insira um município válido!",
-                  },
-                  {
                     required: true,
-                    message: "Por favor, insira seu município!",
+                    message: "Por favor, selecione um município!",
                   },
                 ]}
               >
-                <Input
-                  size="large"
-                  maxLength={60}
+                <Select
+                  showSearch
                   placeholder="Brumadinho"
-                  prefix={<PushpinOutlined />}
-                />
+                  getPopupContainer={(trigger) => trigger.parentElement}
+                  optionFilterProp="children"
+                  loading={citiesLoading}
+                  size="large"
+                  notFoundContent={<div> Nenhum Município </div>}
+                  filterOption={true}
+                >
+                  {cities.map((city) => (
+                    <Option key={city.id} value={city.nome}>
+                      {city.nome}
+                    </Option>
+                  ))}
+                </Select>
               </Form.Item>
 
               {/* Password */}

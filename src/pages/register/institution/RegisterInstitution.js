@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MaskedInput from "antd-mask-input";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import {
   Row,
   Col,
@@ -22,26 +22,34 @@ import {
   SolutionOutlined,
   LoadingOutlined,
   PlusOutlined,
-  PushpinOutlined,
   LeftOutlined,
 } from "@ant-design/icons";
 
+import "./styles.css";
+
 import {
-  ufs,
   institutionType,
   verificationStatus,
+  warningTexts,
 } from "../../../services/basicInfo";
+
 import {
   successNotification,
   errorNotification,
 } from "../../../services/messages";
-import "./styles.css";
 
 const { Option } = Select;
 const { Title, Text } = Typography;
 const logo = require("../../../assets/images/logo_512.png");
 
 const RegisterInstitution = (props) => {
+  const [ufs, setUfs] = useState([]);
+  const [selectedUf, setSelectedUf] = useState({ key: null, value: null });
+  const [cities, setCities] = useState([]);
+
+  const [ufsLoading, setUfsLoading] = useState(false);
+  const [citiesLoading, setCitiesLoading] = useState(false);
+
   const [nav, setNav] = useState(null);
   const [submit, setSubmit] = useState({ disabled: false, loading: false });
   const [photo, setPhoto] = useState({
@@ -49,6 +57,42 @@ const RegisterInstitution = (props) => {
     loading: false,
     file: null,
   });
+
+  useEffect(() => {
+    setUfsLoading(true);
+
+    axios
+      .get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/")
+      .then((res) => {
+        setUfsLoading(false);
+        setUfs(res.data.sort((a, b) => a.sigla.localeCompare(b.sigla)));
+      })
+      .catch((error) => {
+        setUfsLoading(false);
+        errorNotification(
+          "Erro ao carregar a lista de estados do Brasil. Por favor, atualize a página!"
+        );
+      });
+  }, []);
+
+  useEffect(() => {
+    setCitiesLoading(true);
+
+    axios
+      .get(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf.key}/municipios`
+      )
+      .then((res) => {
+        setCitiesLoading(false);
+        setCities(res.data);
+      })
+      .catch((error) => {
+        setCitiesLoading(false);
+        errorNotification(
+          "Erro ao carregar a lista de municípios deste estado. Por favor, atualize a página!"
+        );
+      });
+  }, [selectedUf]);
 
   useEffect(() => {
     if (!props.location.profileType) {
@@ -137,15 +181,21 @@ const RegisterInstitution = (props) => {
         <Card className="card-box card-register" bordered={false}>
           <Row justify="center" gutter={16} style={{ paddingBottom: "16px" }}>
             <Col span={4} style={{ alignSelf: "center" }}>
-              <Button
-                shape="circle"
-                onClick={() => {
-                  setNav("/register/user");
-                }}
-              >
-                <LeftOutlined />
+              <Button shape="circle">
+                <Link
+                  to={{
+                    pathname: "/register/warning",
+                    profileType: props.location.profileType,
+                    warningText: warningTexts.createInstitution,
+                    futurePath: "/register/institution",
+                    backPath: "/register/user",
+                  }}
+                >
+                  <LeftOutlined />
+                </Link>
               </Button>
             </Col>
+
             <Col span={6} style={{ textAlign: "right" }}>
               <img src={logo} className="logo-small" alt="Alerta Brumadinho" />
             </Col>
@@ -165,12 +215,12 @@ const RegisterInstitution = (props) => {
 
           <Divider plain>
             <Text type="secondary" style={{ fontSize: "16px" }}>
-              Preencha os dados da instituição
+              Preencha seus dados
             </Text>
           </Divider>
 
           {/* Form */}
-          <Row justify="center" style={{ marginTop: "32px" }}>
+          <Row justify="center" style={{ marginTop: "24px" }}>
             <Form
               name="info"
               layout="vertical"
@@ -178,8 +228,68 @@ const RegisterInstitution = (props) => {
               initialValues={{ remember: true }}
               onFinish={registerInstitution}
             >
+              {/* Person Name */}
+              <Form.Item
+                label="Seu Nome:"
+                name="personName"
+                hasFeedback
+                rules={[
+                  {
+                    whitespace: true,
+                    message: "Por favor, insira um nome válido!",
+                  },
+                  {
+                    required: true,
+                    message: "Por favor, insira seu nome!",
+                  },
+                ]}
+              >
+                <Input
+                  size="large"
+                  maxLength={60}
+                  placeholder="Fulano de Tal"
+                  prefix={<UserOutlined />}
+                />
+              </Form.Item>
+
+              {/* Person Email */}
+              <Form.Item
+                label="Seu E-mail:"
+                name="personEmail"
+                hasFeedback
+                validateFirst
+                rules={[
+                  {
+                    whitespace: true,
+                    message: "Por favor, insira um e-mail válido!",
+                  },
+                  {
+                    type: "email",
+                    message: "Por favor, insira um e-mail válido!",
+                  },
+                  {
+                    required: true,
+                    message: "Por favor, insira seu e-mail!",
+                  },
+                ]}
+              >
+                <Input
+                  size="large"
+                  maxLength={40}
+                  placeholder="fulano@instituicao.com"
+                  prefix={<MailOutlined />}
+                />
+              </Form.Item>
+
+              <Divider plain>
+                <Text type="secondary" style={{ fontSize: "16px" }}>
+                  Preencha os dados da instituição
+                </Text>
+              </Divider>
+
               {/* Name */}
               <Form.Item
+                style={{ marginTop: "24px" }}
                 label="Nome da Instituição:"
                 name="name"
                 hasFeedback
@@ -298,24 +408,24 @@ const RegisterInstitution = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: "Por favor, selecione o estado da instituição!",
+                    message: "Por favor, selecione um estado!",
                   },
                 ]}
               >
                 <Select
                   showSearch
-                  prefix={<UserOutlined />}
                   placeholder="MG - Minas Gerais"
                   getPopupContainer={(trigger) => trigger.parentElement}
                   optionFilterProp="children"
+                  loading={ufsLoading}
                   size="large"
-                  notFoundContent={<div> Nenhum resultado </div>}
+                  notFoundContent={<div> Nenhum Estado </div>}
                   filterOption={true}
+                  onSelect={(value, option) => setSelectedUf(option)}
                 >
                   {ufs.map((uf) => (
-                    <Option key={uf.value} value={uf.value}>
-                      {" "}
-                      {uf.value} - {uf.name}
+                    <Option key={uf.id} value={uf.sigla}>
+                      {uf.sigla} - {uf.nome}
                     </Option>
                   ))}
                 </Select>
@@ -328,21 +438,27 @@ const RegisterInstitution = (props) => {
                 hasFeedback
                 rules={[
                   {
-                    whitespace: true,
-                    message: "Por favor, insira um município válido!",
-                  },
-                  {
                     required: true,
-                    message: "Por favor, insira o município da instituição!",
+                    message: "Por favor, selecione um município!",
                   },
                 ]}
               >
-                <Input
-                  size="large"
-                  maxLength={60}
+                <Select
+                  showSearch
                   placeholder="Brumadinho"
-                  prefix={<PushpinOutlined />}
-                />
+                  getPopupContainer={(trigger) => trigger.parentElement}
+                  optionFilterProp="children"
+                  loading={citiesLoading}
+                  size="large"
+                  notFoundContent={<div> Nenhum Município </div>}
+                  filterOption={true}
+                >
+                  {cities.map((city) => (
+                    <Option key={city.id} value={city.nome}>
+                      {city.nome}
+                    </Option>
+                  ))}
+                </Select>
               </Form.Item>
 
               {/* Photo */}
