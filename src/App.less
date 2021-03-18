@@ -1,12 +1,23 @@
 @import "~antd/dist/antd.less";
 @import url("https://fonts.googleapis.com/css?family=Roboto:wght@200..900&display=swap");
 
+@font-face {
+  font-family: "Circular Std Book";
+  src: url("//db.onlinewebfonts.com/t/860c3ec7bbc5da3e97233ccecafe512e.eot");
+  src: url("//db.onlinewebfonts.com/t/860c3ec7bbc5da3e97233ccecafe512e.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/860c3ec7bbc5da3e97233ccecafe512e.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/860c3ec7bbc5da3e97233ccecafe512e.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/860c3ec7bbc5da3e97233ccecafe512e.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/860c3ec7bbc5da3e97233ccecafe512e.svg#Circular Std Book")
+      format("svg");
+}
+
 body {
-  background-image: url("./assets/images/background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  // background-color: #bebebe;
-  font-family: "Roboto";
+  font-family: "Circular Std Book", sans-serif;
 }
 
 .logo-small {
@@ -14,13 +25,6 @@ body {
   height: 13vw;
   max-width: 50px;
   max-height: 46px;
-}
-
-.logo {
-  width: 30vw;
-  height: 28vw;
-  max-width: 140px;
-  max-height: 130px;
 }
 
 .card-container {
@@ -53,7 +57,8 @@ body {
   border: 0;
 }
 
-.primary-button:hover, .primary-button:focus{
+.primary-button:hover,
+.primary-button:focus {
   background-image: linear-gradient(to right, #5fbb4a, #29611a);
 }
 
@@ -65,11 +70,11 @@ body {
 *::-webkit-scrollbar {
   width: 0.4em;
 }
- 
+
 *::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
 }
- 
+
 *::-webkit-scrollbar-thumb {
   background-color: lightgray;
   // outline: 1px solid slategrey;
