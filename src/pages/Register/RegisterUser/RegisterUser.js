@@ -13,7 +13,6 @@ import {
   message,
   Card,
   Typography,
-  Divider,
 } from "antd";
 import {
   UserOutlined,
@@ -27,8 +26,7 @@ import {
   LeftOutlined,
 } from "@ant-design/icons";
 
-import "./styles.css";
-import { verificationStatus, warningTexts } from "../../../services/basicInfo";
+import "./RegisterUser.css";
 import {
   successNotification,
   errorNotification,
@@ -47,7 +45,6 @@ const RegisterUser = (props) => {
   const [citiesLoading, setCitiesLoading] = useState(false);
 
   const [nav, setNav] = useState(null);
-  const [institutions, setInstitutions] = useState(null);
   const [submit, setSubmit] = useState({ disabled: false, loading: false });
   const [photo, setPhoto] = useState({
     url: "",
@@ -91,21 +88,6 @@ const RegisterUser = (props) => {
       });
   }, [selectedUf]);
 
-  useEffect(() => {
-    if (!props.location.profileType) {
-      setNav("/register");
-    } else {
-      axios
-        .get("/institutions")
-        .then((res) => {
-          setInstitutions(res.data);
-        })
-        .catch((error) => {
-          errorNotification();
-        });
-    }
-  }, [props.location.profileType]);
-
   const beforeUpload = (file) => {
     if (
       file.type === "image/jpeg" ||
@@ -145,19 +127,13 @@ const RegisterUser = (props) => {
   const registerUser = (values) => {
     setSubmit({ ...submit, loading: true });
 
-    const birth = values.birth.split("/").reverse().join("-");
-    const verified =
-      props.location.profileType === "common"
-        ? verificationStatus.verified.type
-        : verificationStatus.unverified.type;
-
     delete values.confirmPassword;
+
+    const birth = values.birth.split("/").reverse().join("-");
     const finalForm = {
       ...values,
-      verified,
       birth,
       photo: photo.url,
-      type: props.location.profileType,
     };
 
     console.log(finalForm);
@@ -196,18 +172,7 @@ const RegisterUser = (props) => {
           <Row justify="center" gutter={16} style={{ paddingBottom: "16px" }}>
             <Col span={4} style={{ alignSelf: "center" }}>
               <Button shape="circle">
-                <Link
-                  to={{
-                    pathname:
-                      props.location.profileType === "common"
-                        ? "/register"
-                        : "/register/warning",
-                    profileType: props.location.profileType,
-                    warningText: warningTexts.createAgentAccount,
-                    futurePath: "/register/user",
-                    backPath: "/register",
-                  }}
-                >
+                <Link to="/">
                   <LeftOutlined />
                 </Link>
               </Button>
@@ -230,11 +195,18 @@ const RegisterUser = (props) => {
             </Col>
           </Row>
 
-          <Divider plain>
-            <Text type="secondary" style={{ fontSize: "16px" }}>
-              Preencha suas informações
-            </Text>
-          </Divider>
+          <Text
+            type="secondary"
+            style={{
+              fontSize: "16px",
+              textAlign: "center",
+              width: "100%",
+              display: "block",
+            }}
+          >
+            Fique tranquilo! Suas informações serão confidenciais e você ainda
+            poderá realizar denúncias de forma anônima caso queira.
+          </Text>
 
           {/* Form */}
           <Row justify="center" style={{ marginTop: "32px" }}>
@@ -245,78 +217,6 @@ const RegisterUser = (props) => {
               initialValues={{ remember: true }}
               onFinish={registerUser}
             >
-              {props.location.profileType !== "common" ? (
-                <div>
-                  {/* Institution */}
-                  <Form.Item
-                    label="Instituição:"
-                    name="institution"
-                    hasFeedback
-                    rules={[
-                      {
-                        required: true,
-                        message: "Por favor, selecione uma instituição!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      showSearch
-                      prefix={<UserOutlined />}
-                      placeholder="Selecione sua Instituição"
-                      getPopupContainer={(trigger) => trigger.parentElement}
-                      optionFilterProp="children"
-                      size="large"
-                      notFoundContent={<div>Nenhuma Instituição</div>}
-                      filterOption={true}
-                    >
-                      {institutions
-                        ? institutions.map((institution) => {
-                            if (
-                              institution.verified === "verified" &&
-                              props.location.profileType.startsWith(
-                                institution.type
-                              )
-                            ) {
-                              return (
-                                <Option
-                                  key={institution.id}
-                                  value={institution.id}
-                                >
-                                  {institution.name}
-                                </Option>
-                              );
-                            }
-
-                            return null;
-                          })
-                        : null}
-                    </Select>
-                  </Form.Item>
-
-                  <Row
-                    justify="center"
-                    gutter={[0, { xs: 16, sm: 16, md: 32, lg: 32 }]}
-                  >
-                    <Col
-                      span={24}
-                      style={{ textAlign: "right", marginTop: "-20px" }}
-                    >
-                      <Link
-                        to={{
-                          pathname: "/register/warning",
-                          profileType: props.location.profileType,
-                          warningText: warningTexts.createInstitution,
-                          futurePath: "/register/institution",
-                          backPath: "/register/user",
-                        }}
-                      >
-                        Não encontrou sua Instituição? Clique aqui!
-                      </Link>
-                    </Col>
-                  </Row>
-                </div>
-              ) : null}
-
               {/* Name */}
               <Form.Item
                 label="Nome Completo:"
@@ -626,7 +526,6 @@ const RegisterUser = (props) => {
                 <Button
                   type="primary"
                   size="large"
-                  className="primary-button"
                   htmlType="submit"
                   disabled={submit.disabled}
                   loading={submit.loading}

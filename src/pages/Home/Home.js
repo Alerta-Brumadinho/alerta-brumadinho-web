@@ -30,7 +30,7 @@ class Home extends Component {
           <div className="home-footer">
             <p>É um Órgão Público?</p>
             <Button type="primary" className="teste" size="large" block>
-              Solicitar cadastro
+              <Link to="/register/institution">Solicitar cadastro</Link>
             </Button>
           </div>
         </div>
@@ -129,12 +129,15 @@ class Home extends Component {
 
             <Row justify="center">
               <Button size="large" className="secondary-button" block>
-                <Link to="/register">Cadastrar</Link>
+                <Link to="/register/user">Cadastrar</Link>
               </Button>
             </Row>
 
             <Row justify="center" style={{ margin: "30px 0" }}>
-              <Link to="/forgot" style={{ textDecoration: "underline", fontSize: '16px' }}>
+              <Link
+                to="/forgot"
+                style={{ textDecoration: "underline", fontSize: "16px" }}
+              >
                 Esqueceu sua Senha? Recuperar!
               </Link>
             </Row>

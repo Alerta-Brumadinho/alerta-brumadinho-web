@@ -3,9 +3,8 @@ import { Row, Col, Button, Card, Typography, Divider, Input, Form } from "antd";
 import { Redirect } from "react-router-dom";
 import { LeftOutlined, LockOutlined } from "@ant-design/icons";
 import axios from "axios";
-import qs from "qs";
 
-import "./styles.css";
+import "./ResetPassword.css";
 import {
   successNotification,
   errorNotification,
@@ -19,12 +18,10 @@ const ResetPassword = (props) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [validatingToken, setValidatingToken] = useState(true);
+  const { token } = props.match.params;
 
   useEffect(() => {
-    const { token } = qs.parse(props.location.search, {
-      ignoreQueryPrefix: true,
-    });
-
+    console.log(token);
     if (token) {
       axios
         .post("users/confirmToken", { token })
@@ -38,7 +35,7 @@ const ResetPassword = (props) => {
     } else {
       setNav("/");
     }
-  }, [props.location.search]);
+  }, [token]);
 
   const resetPassword = (values) => {
     const { password } = values;
@@ -173,7 +170,6 @@ const ResetPassword = (props) => {
                 type="primary"
                 htmlType="submit"
                 loading={loading}
-                className="primary-button"
               >
                 Redefinir Senha
               </Button>

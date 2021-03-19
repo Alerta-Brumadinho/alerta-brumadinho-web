@@ -85,6 +85,12 @@
   margin-top: 20px;
 }
 
+@media only screen and (min-height: 700px) {
+  .right-content {
+    padding-top: 40px;
+  }
+}
+
 @media only screen and (max-width: 750px) {
   .right-content {
     width: calc(100vw - 20vw) !important;

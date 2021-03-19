@@ -13,7 +13,6 @@ import {
   message,
   Card,
   Typography,
-  Divider,
 } from "antd";
 import {
   UserOutlined,
@@ -23,15 +22,10 @@ import {
   LoadingOutlined,
   PlusOutlined,
   LeftOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
 
-import "./styles.css";
-
-import {
-  institutionType,
-  verificationStatus,
-  warningTexts,
-} from "../../../services/basicInfo";
+import "./RegisterInstitution.css";
 
 import {
   successNotification,
@@ -94,12 +88,6 @@ const RegisterInstitution = (props) => {
       });
   }, [selectedUf]);
 
-  useEffect(() => {
-    if (!props.location.profileType) {
-      setNav("/register");
-    }
-  }, [props.location.profileType]);
-
   const beforeUpload = (file) => {
     if (
       file.type === "image/jpeg" ||
@@ -139,16 +127,9 @@ const RegisterInstitution = (props) => {
   const registerInstitution = (values) => {
     setSubmit({ ...submit, loading: true });
 
-    const verified = verificationStatus.unverified.type;
-    const type =
-      props.location.profileType === "ongAgent"
-        ? institutionType.ong.type
-        : institutionType.government.type;
-
+    delete values.confirmPassword;
     const finalForm = {
       ...values,
-      verified,
-      type,
       photo: photo.url,
     };
 
@@ -158,7 +139,7 @@ const RegisterInstitution = (props) => {
       .post("/institutions/create", finalForm)
       .then(function (res) {
         successNotification(
-          "Sua instituição foi cadastrada com sucesso! Aguarde que entraremos em contato para validá-la."
+          "Sua solicitação foi cadastrada com sucesso! Aguarde que entraremos em contato para validá-la."
         );
         setSubmit({ ...submit, loading: false });
         setNav("/");
@@ -182,15 +163,7 @@ const RegisterInstitution = (props) => {
           <Row justify="center" gutter={16} style={{ paddingBottom: "16px" }}>
             <Col span={4} style={{ alignSelf: "center" }}>
               <Button shape="circle">
-                <Link
-                  to={{
-                    pathname: "/register/warning",
-                    profileType: props.location.profileType,
-                    warningText: warningTexts.createInstitution,
-                    futurePath: "/register/institution",
-                    backPath: "/register/user",
-                  }}
-                >
+                <Link to="/">
                   <LeftOutlined />
                 </Link>
               </Button>
@@ -213,11 +186,19 @@ const RegisterInstitution = (props) => {
             </Col>
           </Row>
 
-          <Divider plain>
-            <Text type="secondary" style={{ fontSize: "16px" }}>
-              Preencha seus dados
-            </Text>
-          </Divider>
+          <Text
+            type="secondary"
+            style={{
+              fontSize: "16px",
+              textAlign: "center",
+              width: "100%",
+              display: "block",
+            }}
+          >
+            O e-mail informado no momento do cadastro deve possuir o domínio de
+            sua instituição. Por exemplo: contato@brumadinho.mg.gov.br. Caso
+            contrário, o cadastro será invalidado.
+          </Text>
 
           {/* Form */}
           <Row justify="center" style={{ marginTop: "24px" }}>
@@ -228,65 +209,6 @@ const RegisterInstitution = (props) => {
               initialValues={{ remember: true }}
               onFinish={registerInstitution}
             >
-              {/* Person Name */}
-              <Form.Item
-                label="Seu Nome:"
-                name="personName"
-                hasFeedback
-                rules={[
-                  {
-                    whitespace: true,
-                    message: "Por favor, insira um nome válido!",
-                  },
-                  {
-                    required: true,
-                    message: "Por favor, insira seu nome!",
-                  },
-                ]}
-              >
-                <Input
-                  size="large"
-                  maxLength={60}
-                  placeholder="Fulano de Tal"
-                  prefix={<UserOutlined />}
-                />
-              </Form.Item>
-
-              {/* Person Email */}
-              <Form.Item
-                label="Seu E-mail:"
-                name="personEmail"
-                hasFeedback
-                validateFirst
-                rules={[
-                  {
-                    whitespace: true,
-                    message: "Por favor, insira um e-mail válido!",
-                  },
-                  {
-                    type: "email",
-                    message: "Por favor, insira um e-mail válido!",
-                  },
-                  {
-                    required: true,
-                    message: "Por favor, insira seu e-mail!",
-                  },
-                ]}
-              >
-                <Input
-                  size="large"
-                  maxLength={40}
-                  placeholder="fulano@instituicao.com"
-                  prefix={<MailOutlined />}
-                />
-              </Form.Item>
-
-              <Divider plain>
-                <Text type="secondary" style={{ fontSize: "16px" }}>
-                  Preencha os dados da instituição
-                </Text>
-              </Divider>
-
               {/* Name */}
               <Form.Item
                 style={{ marginTop: "24px" }}
@@ -314,11 +236,15 @@ const RegisterInstitution = (props) => {
 
               {/* CNPJ */}
               <Form.Item
-                label="CNPJ (caso possua):"
+                label="CNPJ:"
                 name="cnpj"
                 hasFeedback
                 validateFirst
                 rules={[
+                  {
+                    required: true,
+                    message: "Por favor, insira um CNPJ!",
+                  },
                   {
                     len: 14,
                     message: "Por favor, insira um CNPJ válido!",
@@ -461,6 +387,69 @@ const RegisterInstitution = (props) => {
                 </Select>
               </Form.Item>
 
+              {/* Password */}
+              <Form.Item
+                label="Senha:"
+                name="password"
+                hasFeedback
+                validateFirst
+                rules={[
+                  {
+                    whitespace: true,
+                    message: "Sua senha não deve conter espaços!",
+                  },
+                  {
+                    required: true,
+                    message: "Por favor, insira sua senha!",
+                  },
+                  {
+                    min: 8,
+                    message: "A senha deve ter no mínimo 8 dígitos!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  size="large"
+                  maxLength={20}
+                  placeholder="********"
+                  prefix={<LockOutlined />}
+                />
+              </Form.Item>
+
+              {/* Confirm Password */}
+              <Form.Item
+                label="Confirmar Senha:"
+                name="confirmPassword"
+                dependencies={["password"]}
+                hasFeedback
+                validateFirst
+                rules={[
+                  {
+                    whitespace: true,
+                    message: "Sua senha não deve conter espaços!",
+                  },
+                  {
+                    required: true,
+                    message: "Por favor, confirme sua senha!",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject("As senhas não conferem!");
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password
+                  size="large"
+                  maxLength={20}
+                  placeholder="********"
+                  prefix={<LockOutlined />}
+                />
+              </Form.Item>
+
               {/* Photo */}
               <Form.Item
                 name="photo"
@@ -491,13 +480,12 @@ const RegisterInstitution = (props) => {
                 <Button
                   type="primary"
                   size="large"
-                  className="primary-button"
                   htmlType="submit"
                   disabled={submit.disabled}
                   loading={submit.loading}
                   block
                 >
-                  Cadastrar Instituição
+                  Solicitar Cadastro
                 </Button>
               </Form.Item>
             </Form>

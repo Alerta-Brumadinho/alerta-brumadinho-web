@@ -8,7 +8,7 @@ import {
   InfoCircleOutlined,
 } from "@ant-design/icons";
 
-import "./styles.css";
+import "./ForgotPassword.css";
 import {
   successNotification,
   errorNotification,
@@ -124,7 +124,6 @@ const ForgotPassword = () => {
                 htmlType="submit"
                 size="large"
                 loading={loading}
-                className="primary-button"
                 block
               >
                 Trocar Senha
