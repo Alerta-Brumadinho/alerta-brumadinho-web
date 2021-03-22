@@ -24,7 +24,7 @@ const ResetPassword = (props) => {
     console.log(token);
     if (token) {
       axios
-        .post("users/confirmToken", { token })
+        .post("login/confirmToken", { token })
         .then((res) => {
           setUser(res.data.user);
           setValidatingToken(false);

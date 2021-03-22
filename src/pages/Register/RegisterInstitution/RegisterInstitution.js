@@ -128,15 +128,19 @@ const RegisterInstitution = (props) => {
     setSubmit({ ...submit, loading: true });
 
     delete values.confirmPassword;
+    const cnpj = values.cnpj.replace(/[^0-9]/g, "");
+    const phone = values.phone.replace(/[^0-9]/g, "");
     const finalForm = {
       ...values,
+      cnpj,
+      phone,
       photo: photo.url,
     };
 
     console.log(finalForm);
 
     axios
-      .post("/institutions/create", finalForm)
+      .post("/publicAgencies/create", finalForm)
       .then(function (res) {
         successNotification(
           "Sua solicitação foi cadastrada com sucesso! Aguarde que entraremos em contato para validá-la."

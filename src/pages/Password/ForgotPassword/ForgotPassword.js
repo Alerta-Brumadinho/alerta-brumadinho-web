@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     setLoading(true);
 
     axios
-      .post("/users/forgotPassword", { email })
+      .post("/login/forgotPassword", { email })
       .then((res) => {
         setNav("/");
         setLoading(false);

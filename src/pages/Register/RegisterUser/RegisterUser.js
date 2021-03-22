@@ -130,9 +130,13 @@ const RegisterUser = (props) => {
     delete values.confirmPassword;
 
     const birth = values.birth.split("/").reverse().join("-");
+    const cpf = values.cpf.replace(/[^0-9]/g, "");
+    const phone = values.phone.replace(/[^0-9]/g, "");
     const finalForm = {
       ...values,
+      cpf,
       birth,
+      phone,
       photo: photo.url,
     };
 
