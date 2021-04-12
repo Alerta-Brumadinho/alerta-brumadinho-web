@@ -37,8 +37,7 @@ const Login = () => {
   };
 
   const accessWithoutRegistration = () => {
-    setToken("externalUser");
-    setNav("/home");
+    setNav("/selectLocation");
   };
 
   if (nav) {

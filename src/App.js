@@ -11,6 +11,7 @@ import Home from "./pages/Home/Home";
 
 import RegisterResident from "./pages/Register/RegisterResident/RegisterResident";
 import RegisterPublicAgency from "./pages/Register/RegisterPublicAgency/RegisterPublicAgency";
+import SelectLocation from "./pages/SelectLocation/SelectLocation";
 import ForgotPassword from "./pages/Password/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/Password/ResetPassword/ResetPassword";
 
@@ -29,7 +30,9 @@ function App() {
       <Route
         path="/home"
         exact
-        render={() => (getToken() ? <Home /> : <Redirect to="/" />)}
+        render={(props) =>
+          getToken() ? <Home {...props} /> : <Redirect to="/" />
+        }
       />
 
       <Route
@@ -45,6 +48,13 @@ function App() {
         exact
         render={() =>
           getToken() ? <Redirect to="/home" /> : <RegisterPublicAgency />
+        }
+      />
+
+      <Route
+        path="/selectLocation"
+        render={() =>
+          getToken() ? <Redirect to="/home" /> : <SelectLocation />
         }
       />
 

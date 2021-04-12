@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 
-import { getToken } from "../../services/auth";
-
 import "./Home.css";
 
-const Home = () => {
+const Home = (props) => {
   useEffect(() => {
-    console.log(getToken());
-  }, []);
+    console.log(props);
+  }, [props]);
 
   return <div>home</div>;
 };
