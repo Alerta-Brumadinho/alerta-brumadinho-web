@@ -21,7 +21,6 @@ const ResetPassword = (props) => {
   const { token } = props.match.params;
 
   useEffect(() => {
-    console.log(token);
     if (token) {
       axios
         .post("login/confirmToken", { token })
@@ -41,19 +40,35 @@ const ResetPassword = (props) => {
     const { password } = values;
     setLoading(true);
 
-    axios
-      .put(`users/${user.cpf}`, { password })
-      .then(() => {
-        setLoading(false);
-        successNotification(
-          "Sua senha foi alterada com sucesso! Agora você pode se logar."
-        );
-        setNav("/");
-      })
-      .catch((error) => {
-        setLoading(false);
-        errorNotification();
-      });
+    if (user.cpf) {
+      axios
+        .put(`residents/resident/${user.cpf}`, { password })
+        .then(() => {
+          setLoading(false);
+          successNotification(
+            "Sua senha foi alterada com sucesso! Agora você pode se logar."
+          );
+          setNav("/");
+        })
+        .catch((error) => {
+          setLoading(false);
+          errorNotification();
+        });
+    } else {
+      axios
+        .put(`publicAgencies/${user.cnpj}`, { password })
+        .then(() => {
+          setLoading(false);
+          successNotification(
+            "Sua senha foi alterada com sucesso! Agora você pode se logar."
+          );
+          setNav("/");
+        })
+        .catch((error) => {
+          setLoading(false);
+          errorNotification();
+        });
+    }
   };
 
   if (nav) return <Redirect to={nav} />;

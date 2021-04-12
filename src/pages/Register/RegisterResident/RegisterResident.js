@@ -26,7 +26,7 @@ import {
   LeftOutlined,
 } from "@ant-design/icons";
 
-import "./RegisterUser.css";
+import "./RegisterResident.css";
 import {
   successNotification,
   errorNotification,
@@ -36,7 +36,7 @@ const { Option } = Select;
 const { Title, Text } = Typography;
 const logo = require("../../../assets/images/logo_512.png");
 
-const RegisterUser = (props) => {
+const RegisterResident = (props) => {
   const [ufs, setUfs] = useState([]);
   const [selectedUf, setSelectedUf] = useState({ key: null, value: null });
   const [cities, setCities] = useState([]);
@@ -140,10 +140,8 @@ const RegisterUser = (props) => {
       photo: photo.url,
     };
 
-    console.log(finalForm);
-
     axios
-      .post("/users/create", finalForm)
+      .post("/residents/create", finalForm)
       .then(function (res) {
         if (props.location.profileType === "common") {
           successNotification(
@@ -546,4 +544,4 @@ const RegisterUser = (props) => {
   }
 };
 
-export default RegisterUser;
+export default RegisterResident;

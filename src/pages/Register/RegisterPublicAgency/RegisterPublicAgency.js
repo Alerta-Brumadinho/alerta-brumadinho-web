@@ -25,7 +25,7 @@ import {
   LockOutlined,
 } from "@ant-design/icons";
 
-import "./RegisterInstitution.css";
+import "./RegisterPublicAgency.css";
 
 import {
   successNotification,
@@ -36,7 +36,7 @@ const { Option } = Select;
 const { Title, Text } = Typography;
 const logo = require("../../../assets/images/logo_512.png");
 
-const RegisterInstitution = (props) => {
+const RegisterPublicAgency = (props) => {
   const [ufs, setUfs] = useState([]);
   const [selectedUf, setSelectedUf] = useState({ key: null, value: null });
   const [cities, setCities] = useState([]);
@@ -124,7 +124,7 @@ const RegisterInstitution = (props) => {
       });
   };
 
-  const registerInstitution = (values) => {
+  const registerPublicAgency = (values) => {
     setSubmit({ ...submit, loading: true });
 
     delete values.confirmPassword;
@@ -136,8 +136,6 @@ const RegisterInstitution = (props) => {
       phone,
       photo: photo.url,
     };
-
-    console.log(finalForm);
 
     axios
       .post("/publicAgencies/create", finalForm)
@@ -211,7 +209,7 @@ const RegisterInstitution = (props) => {
               layout="vertical"
               style={{ width: "100%" }}
               initialValues={{ remember: true }}
-              onFinish={registerInstitution}
+              onFinish={registerPublicAgency}
             >
               {/* Name */}
               <Form.Item
@@ -500,4 +498,4 @@ const RegisterInstitution = (props) => {
   }
 };
 
-export default RegisterInstitution;
+export default RegisterPublicAgency;
