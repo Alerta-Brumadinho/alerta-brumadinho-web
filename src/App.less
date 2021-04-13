@@ -52,6 +52,11 @@ body {
     width: calc(100% - 30px);
     padding: 8px 0 16px 0;
   }
+
+  .main-layout {
+    flex-direction: column-reverse;
+    height: 100vh;
+  }
 }
 
 .secondary-button {
@@ -69,4 +74,12 @@ body {
 
 *::-webkit-scrollbar-thumb {
   background-color: lightgray;
+}
+
+.main-layout {
+  display: flex;
+}
+
+.main-layout-content {
+  margin: 24px;
 }

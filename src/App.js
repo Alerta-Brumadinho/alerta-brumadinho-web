@@ -7,7 +7,7 @@ import "./App.less";
 import { getToken } from "./services/auth";
 
 import Login from "./pages/Login/Login";
-import Home from "./pages/Home/Home";
+import Feed from "./pages/Feed/Feed";
 
 import RegisterResident from "./pages/Register/RegisterResident/RegisterResident";
 import RegisterPublicAgency from "./pages/Register/RegisterPublicAgency/RegisterPublicAgency";
@@ -24,14 +24,14 @@ function App() {
       <Route
         path="/"
         exact
-        render={() => (getToken() ? <Redirect to="/home" /> : <Login />)}
+        render={() => (getToken() ? <Redirect to="/feed" /> : <Login />)}
       />
 
       <Route
-        path="/home"
+        path="/feed"
         exact
         render={(props) =>
-          getToken() ? <Home {...props} /> : <Redirect to="/" />
+          getToken() ? <Feed {...props} /> : <Redirect to="/" />
         }
       />
 
@@ -39,7 +39,7 @@ function App() {
         path="/register/resident"
         exact
         render={() =>
-          getToken() ? <Redirect to="/home" /> : <RegisterResident />
+          getToken() ? <Redirect to="/feed" /> : <RegisterResident />
         }
       />
 
@@ -47,14 +47,14 @@ function App() {
         path="/register/publicAgency"
         exact
         render={() =>
-          getToken() ? <Redirect to="/home" /> : <RegisterPublicAgency />
+          getToken() ? <Redirect to="/feed" /> : <RegisterPublicAgency />
         }
       />
 
       <Route
         path="/selectLocation"
         render={() =>
-          getToken() ? <Redirect to="/home" /> : <SelectLocation />
+          getToken() ? <Redirect to="/feed" /> : <SelectLocation />
         }
       />
 
@@ -62,14 +62,14 @@ function App() {
         path="/forgot"
         exact
         render={() =>
-          getToken() ? <Redirect to="/home" /> : <ForgotPassword />
+          getToken() ? <Redirect to="/feed" /> : <ForgotPassword />
         }
       />
 
       <Route
         path="/reset/:token"
         render={(props) =>
-          getToken() ? <Redirect to="/home" /> : <ResetPassword {...props} />
+          getToken() ? <Redirect to="/feed" /> : <ResetPassword {...props} />
         }
       />
 

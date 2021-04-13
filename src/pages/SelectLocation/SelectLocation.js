@@ -6,7 +6,7 @@ import { LeftOutlined } from "@ant-design/icons";
 
 import "./SelectLocation.css";
 
-import { setToken } from "../../services/auth";
+import { setToken, setLocation } from "../../services/auth";
 import {
   successNotification,
   errorNotification,
@@ -24,7 +24,6 @@ const SelectLocation = () => {
   const [ufsLoading, setUfsLoading] = useState(false);
   const [citiesLoading, setCitiesLoading] = useState(false);
 
-  const [location, setLocation] = useState(null);
   const [nav, setNav] = useState(null);
 
   useEffect(() => {
@@ -71,7 +70,7 @@ const SelectLocation = () => {
   };
 
   if (nav)
-    return <Redirect to={{ pathname: nav, state: { location: location } }} />;
+    return <Redirect to={nav} />;
   else {
     return (
       <div className="card-container">

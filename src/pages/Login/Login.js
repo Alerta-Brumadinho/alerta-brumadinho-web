@@ -25,6 +25,7 @@ const Login = () => {
     axios
       .post("/login/auth", values)
       .then((res) => {
+        console.log(res.data)
         setLoading(false);
         setToken(res.data.token);
         setNav("/home");
