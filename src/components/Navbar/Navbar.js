@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Menu, Button } from "antd";
 import {
   UserOutlined,
@@ -19,15 +19,15 @@ const Navbar = () => {
   const [location, setLocation] = useState(null);
   const [nav, setNav] = useState(null);
 
-  useEffect(() => {
-    setLocation(getLocation());
-  }, []);
-
   const changeLocation = () => {
     deleteLocation();
     deleteToken();
     setNav("/");
   };
+
+  useEffect(() => {
+    setLocation(getLocation());
+  }, []);
 
   if (nav) return <Redirect to={nav} />;
   return (
@@ -39,17 +39,19 @@ const Navbar = () => {
 
       <div className="navbar-menu">
         <Menu
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={["feed"]}
           mode="inline"
           theme="light"
           inlineCollapsed={false}
         >
-          <Menu.Item key="1" icon={<ContainerOutlined />}>
-            Feed de Denúncias
+          <Menu.Item key="feed" icon={<ContainerOutlined />}>
+            <Link to="/feed">Feed de Denúncias</Link>
           </Menu.Item>
+
           <Menu.Item key="2" icon={<FileSearchOutlined />}>
             Minhas Denúncias
           </Menu.Item>
+
           <Menu.Item key="3" icon={<CompassOutlined />}>
             Mapa de Denúncias
           </Menu.Item>
