@@ -239,8 +239,6 @@ const CreateDenunciation = () => {
   }, []);
 
   useEffect(() => {
-    console.log(denunciation);
-
     if (denunciation.publisher) {
       setRegisterDenunciationLoading(true);
       axios
