@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import "./Login.css";
 
-import { setToken } from "../../services/auth";
+import { setToken } from "../../services/user";
 import {
   successNotification,
   errorNotification,
@@ -25,7 +25,7 @@ const Login = () => {
     axios
       .post("/login/auth", values)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         setLoading(false);
         setToken(res.data.token);
         setNav("/home");

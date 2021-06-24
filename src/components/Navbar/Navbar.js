@@ -9,14 +9,21 @@ import {
   HomeOutlined,
 } from "@ant-design/icons";
 
-import { getLocation, deleteLocation, deleteToken } from "../../services/auth";
+import {
+  getLocation,
+  getUserFromDb,
+  deleteLocation,
+  deleteToken,
+  isAnExternalUser,
+} from "../../services/user";
 
 import "./Navbar.css";
 
 const logo = require("../../assets/images/logo_512.png");
 
 const Navbar = () => {
-  const [location, setLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
+  // const [user, setUser] = useState(null);
   const [nav, setNav] = useState(null);
 
   const changeLocation = () => {
@@ -26,7 +33,12 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    setLocation(getLocation());
+    if (isAnExternalUser()) setUserLocation(getLocation());
+    else {
+      getUserFromDb().then((result) => {
+        setUserLocation({ uf: result.uf, city: result.city });
+      });
+    }
   }, []);
 
   if (nav) return <Redirect to={nav} />;
@@ -68,7 +80,8 @@ const Navbar = () => {
         </div>
 
         <h3>
-          {location ? location.city : null} - {location ? location.uf : null}
+          {userLocation ? userLocation.city : null} -{" "}
+          {userLocation ? userLocation.uf : null}
         </h3>
         <Button type="secondary" htmlType="submit" onClick={changeLocation}>
           Sair

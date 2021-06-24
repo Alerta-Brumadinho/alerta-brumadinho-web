@@ -6,7 +6,7 @@ import { LeftOutlined } from "@ant-design/icons";
 
 import "./SelectLocation.css";
 
-import { setToken, setLocation } from "../../services/auth";
+import { setToken, setLocation } from "../../services/user";
 import {
   successNotification,
   errorNotification,
@@ -69,8 +69,7 @@ const SelectLocation = () => {
     setNav("/home");
   };
 
-  if (nav)
-    return <Redirect to={nav} />;
+  if (nav) return <Redirect to={nav} />;
   else {
     return (
       <div className="card-container">

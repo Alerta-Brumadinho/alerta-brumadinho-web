@@ -1,5 +1,5 @@
-.map-container { 
-  height: 60%; 
+.map-container {
+  height: 60%;
   width: 100%;
 }
 
@@ -19,3 +19,7 @@
   flex-direction: row !important;
 }
 
+.leaflet-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
