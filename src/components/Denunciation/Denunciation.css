@@ -1,0 +1,44 @@
+@media only screen and (max-width: 500px) {
+  .denunciation-card {
+    width: 80vw !important;
+  }
+}
+
+.denunciation-card {
+  width: 40vw;
+  margin-bottom: 24px;
+}
+
+.denunciation-card-publisher-date {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.denunciation-card-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.denunciation-card-title div:nth-child(1) {
+  font-weight: bold;
+}
+
+.denunciation-card-description {
+  margin-bottom: 32px;
+}
+
+.denunciation-card-media {
+  margin-bottom: 32px;
+}
+
+.denunciation-card-image {
+  max-width: 38vw;
+  min-width: 38vw;
+}
+
+.denunciation-card-likes-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}

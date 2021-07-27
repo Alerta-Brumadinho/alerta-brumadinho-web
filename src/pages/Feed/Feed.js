@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "antd";
 import { Redirect } from "react-router-dom";
+
+import { Button, Select } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+
 import axios from "axios";
 
 import Navbar from "../../components/Navbar/Navbar";
+import Denunciation from "../../components/Denunciation/Denunciation";
 
 import { errorNotification } from "../../services/messages";
 import {
@@ -15,27 +18,36 @@ import {
 
 import "./Feed.css";
 
+const { Option } = Select;
+
 const Feed = (props) => {
   const [nav, setNav] = useState(null);
   const [denunciations, setDenunciations] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
 
+  const [orderBy, setOrderBy] = useState("created"); // Default denunciations order: by date / recent first
+
   const createDenunciation = () => {
     setNav("/createDenunciation");
   };
 
+  // const doILiked = (arrayOfIds) => {
+  //   arrayOfIds.find()
+  // }
+
   useEffect(() => {
     if (userLocation) {
       axios
-        .get(`/denunciations/fromCity/${userLocation.uf}&${userLocation.city}`)
+        .get(`/denunciations/fromCity/${userLocation.uf}&${userLocation.city}&${orderBy}&-1`)
         .then((res) => {
+          console.log(res.data);
           setDenunciations(res.data);
         })
         .catch((error) => {
           errorNotification();
         });
     }
-  }, [userLocation]);
+  }, [userLocation, orderBy]);
 
   useEffect(() => {
     if (isAnExternalUser()) setUserLocation(getLocation());
@@ -56,13 +68,24 @@ const Feed = (props) => {
       <div className="main-layout">
         <Navbar />
         <div className="main-layout-content">
+          <div className="order-by-container">
+            <div>Ordenar por: </div>
+            <Select
+              defaultValue="created"
+              bordered={false}
+              style={{fontWeight: 'bold'}}
+              onChange={() => {
+                setOrderBy(orderBy === "created" ? "relevance" : "created");
+              }}
+            >
+              <Option value="created">Mais recentes</Option>
+              <Option value="relevance">Mais relevantes</Option>
+            </Select>
+          </div>
+
           {denunciations
             ? denunciations.map((d) => {
-                return (
-                  <div key={d.id}>
-                    {d.title} <br /> {d.description}
-                  </div>
-                );
+                return <Denunciation denunciation={d} key={d.id} />;
               })
             : null}
 
