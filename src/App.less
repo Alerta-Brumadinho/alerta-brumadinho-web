@@ -47,25 +47,6 @@ body {
   box-shadow: rgba(31, 45, 61, 0.25) 0px 0px 1.25rem;
 }
 
-@media only screen and (max-width: 500px) {
-  .card-box {
-    width: calc(100% - 30px);
-    padding: 8px 0 16px 0;
-  }
-
-  .main-layout {
-    flex-direction: column-reverse;
-    height: 100vh;
-  }
-
-  .main-layout-content {
-    margin: 56px 24px 12px 24px !important;
-    width: calc(100vw - 48px) !important;
-    height: calc(100vh - 52px);
-  }
-  
-}
-
 .secondary-button {
   color: #338221;
   border-color: #338221;
@@ -83,14 +64,24 @@ body {
   background-color: lightgray;
 }
 
-.main-layout {
-  display: flex;
-  overflow-y: hidden;
+@media only screen and (max-width: 500px) {
+  .card-box {
+    width: calc(100% - 30px);
+    padding: 8px 0 16px 0;
+  }
+
+  .main-layout-content {
+    left: 0 !important;
+    width: 100vw !important;
+    padding: 54px 0 0 0 !important;
+  }
+  
 }
 
 .main-layout-content {
-  padding: 48px 10vw;
-  width: calc(100vw - 260px);
-  position: relative;
   left: 260px;
+  position: relative;
+  width: calc(100vw - 265px);
+  padding: 32px 64px 0px 64px;
+  height: 100vh;
 }
