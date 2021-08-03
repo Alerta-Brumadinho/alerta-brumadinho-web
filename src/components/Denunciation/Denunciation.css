@@ -42,3 +42,8 @@
   justify-content: space-between;
   margin-bottom: 48px;
 }
+
+.denunciation-card-publisher {
+  display: flex;
+  align-items: center;
+}

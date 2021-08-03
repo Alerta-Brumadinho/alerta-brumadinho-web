@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Card, Button } from "antd";
-import { LikeOutlined } from "@ant-design/icons";
+import { Avatar, Card, Button } from "antd";
+import { LikeOutlined, UserOutlined } from "@ant-design/icons";
 
 import "./Denunciation.css";
 
@@ -21,10 +21,29 @@ const Denunciation = (props) => {
       className="denunciation-card"
     >
       <div className="denunciation-card-publisher-date">
-        <div>
-          {props.denunciation.publisher
-            ? props.denunciation.publisher.name
-            : "Denúncia Anônima"}
+        <div className="denunciation-card-publisher">
+          {props.denunciation.publisher ? (
+            <Avatar
+              size={24}
+              icon={<UserOutlined />}
+              src={
+                props.denunciation.publisher.photo
+                  ? props.denunciation.publisher.photo
+                  : null
+              }
+            />
+          ) : (
+            <Avatar
+              size={24}
+              icon={<UserOutlined />}
+            />
+          )}
+
+          <div style={{ marginLeft: "5px" }}>
+            {props.denunciation.publisher
+              ? props.denunciation.publisher.name
+              : "Denúncia Anônima"}
+          </div>
         </div>
 
         <div>{props.denunciation.created}</div>
