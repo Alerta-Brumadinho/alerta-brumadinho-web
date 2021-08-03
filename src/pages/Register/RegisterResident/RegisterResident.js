@@ -143,15 +143,9 @@ const RegisterResident = (props) => {
     axios
       .post("/residents/create", finalForm)
       .then(function (res) {
-        if (props.location.profileType === "common") {
-          successNotification(
-            "Seu cadastro foi realizado com sucesso! Agora você pode se logar."
-          );
-        } else {
-          successNotification(
-            "Seu cadastro foi realizado com sucesso! Aguarde que entraremos em contato para validar sua conta."
-          );
-        }
+        successNotification(
+          "Seu cadastro foi realizado com sucesso! Agora você pode se logar."
+        );
         setSubmit({ ...submit, loading: false });
         setNav("/");
       })

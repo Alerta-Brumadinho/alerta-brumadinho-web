@@ -25,7 +25,7 @@ const ResetPassword = (props) => {
       axios
         .post("login/confirmToken", { token })
         .then((res) => {
-          setUser(res.data.user);
+          setUser(res.data);
           setValidatingToken(false);
         })
         .catch((error) => {
@@ -42,7 +42,7 @@ const ResetPassword = (props) => {
 
     if (user.cpf) {
       axios
-        .put(`residents/resident/${user.cpf}`, { password })
+        .put("/login/redefinePassword", { token, password })
         .then(() => {
           setLoading(false);
           successNotification(

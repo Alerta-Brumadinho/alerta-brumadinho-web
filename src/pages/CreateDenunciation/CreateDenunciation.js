@@ -137,12 +137,13 @@ const CreateDenunciation = () => {
     setCategoriesLoading(true);
 
     axios
-      .get("/categories")
+      .get("/categories/list")
       .then((res) => {
         setCategoriesLoading(false);
         setCategories(res.data);
       })
       .catch((error) => {
+        console.log(error.message)
         setCategoriesLoading(false);
         errorNotification(
           "Erro ao carregar a lista de categorias. Por favor, atualize a página!"
