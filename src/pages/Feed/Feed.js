@@ -24,6 +24,7 @@ const Feed = (props) => {
   const [nav, setNav] = useState(null);
   const [denunciations, setDenunciations] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const [orderBy, setOrderBy] = useState("created"); // Default denunciations order: by date / recent first
 
@@ -31,14 +32,12 @@ const Feed = (props) => {
     setNav("/createDenunciation");
   };
 
-  // const doILiked = (arrayOfIds) => {
-  //   arrayOfIds.find()
-  // }
-
   useEffect(() => {
     if (userLocation) {
       axios
-        .get(`/denunciations/fromCity/${userLocation.uf}&${userLocation.city}&${orderBy}&-1`)
+        .get(
+          `/denunciations/fromCity/${userLocation.uf}&${userLocation.city}&${orderBy}&-1`
+        )
         .then((res) => {
           console.log(res.data);
           setDenunciations(res.data);
@@ -54,6 +53,7 @@ const Feed = (props) => {
     else {
       getUserFromDb().then((result) => {
         setUserLocation({ uf: result.uf, city: result.city });
+        setUserId(result._id);
       });
     }
   }, []);
@@ -73,7 +73,7 @@ const Feed = (props) => {
             <Select
               defaultValue="created"
               bordered={false}
-              style={{fontWeight: 'bold'}}
+              style={{ fontWeight: "bold" }}
               onChange={() => {
                 setOrderBy(orderBy === "created" ? "relevance" : "created");
               }}
@@ -85,7 +85,9 @@ const Feed = (props) => {
 
           {denunciations
             ? denunciations.map((d) => {
-                return <Denunciation denunciation={d} key={d.id} />;
+                return (
+                  <Denunciation denunciation={d} key={d.id} userId={userId} />
+                );
               })
             : null}
 
