@@ -13,6 +13,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
+  color: #666666;
 }
 
 .denunciation-card-title {
@@ -41,4 +42,9 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 48px;
+}
+
+.denunciation-card-publisher {
+  display: flex;
+  align-items: center;
 }

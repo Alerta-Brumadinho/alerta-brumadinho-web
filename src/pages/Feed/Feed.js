@@ -91,7 +91,7 @@ const Feed = (props) => {
               })
             : null}
 
-          <Button type="primary" onClick={createDenunciation}>
+          <Button type="primary" size="large" onClick={createDenunciation} className="create-denunciation-button">
             <PlusOutlined /> Registrar Denúncia
           </Button>
         </div>

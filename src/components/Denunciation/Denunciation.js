@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Card, Button } from "antd";
-import { LikeOutlined, LikeFilled } from "@ant-design/icons";
-
 import axios from "axios";
+import { Avatar, Card, Button } from "antd";
+import { LikeOutlined, LikeFilled, UserOutlined } from "@ant-design/icons";
 
 import "./Denunciation.css";
 
@@ -44,6 +43,32 @@ const Denunciation = (props) => {
     return false;
   };
 
+  const timeSince = (date) => {
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var interval = seconds / 31536000;
+
+    if (interval > 1) {
+      return "há " + Math.floor(interval) + " anos";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+      return "há " + Math.floor(interval) + " meses";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+      return "há " + Math.floor(interval) + " dias";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return "há " + Math.floor(interval) + " horas";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return "há " + Math.floor(interval) + " minutos";
+    }
+    return "há " + Math.floor(seconds) + " segundos";
+  };
+
   return (
     <Card
       size="small"
@@ -56,13 +81,29 @@ const Denunciation = (props) => {
       className="denunciation-card"
     >
       <div className="denunciation-card-publisher-date">
-        <div>
-          {denunciation.publisher
-            ? denunciation.publisher.name
-            : "Denúncia Anônima"}
+        <div className="denunciation-card-publisher">
+          {denunciation.publisher ? (
+            <Avatar
+              size={24}
+              icon={<UserOutlined />}
+              src={
+                denunciation.publisher.photo
+                  ? denunciation.publisher.photo
+                  : null
+              }
+            />
+          ) : (
+            <Avatar size={24} icon={<UserOutlined />} />
+          )}
+
+          <div style={{ marginLeft: "5px" }}>
+            {denunciation.publisher
+              ? denunciation.publisher.name
+              : "Denúncia Anônima"}
+          </div>
         </div>
 
-        <div>{denunciation.created}</div>
+        <div>{timeSince(new Date(denunciation.created))}</div>
       </div>
 
       <div className="denunciation-card-description">

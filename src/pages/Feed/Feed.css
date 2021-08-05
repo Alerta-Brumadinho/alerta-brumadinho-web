@@ -7,3 +7,23 @@
   border: 1px solid #f0f0f0;
   border-radius: 6px;
 }
+
+.create-denunciation-button {
+  position: absolute;
+  left: calc(260px + 12vw);
+  top: 32px;
+}
+
+@media only screen and (max-width: 500px) {
+  .create-denunciation-button {
+    position: fixed !important;
+    left: auto !important;
+    top: auto !important;
+    right: 24px !important;
+    bottom: 62px !important;
+  }
+
+  .create-denunciation-button span:nth-child(2) {
+    display: none;
+  }
+}
