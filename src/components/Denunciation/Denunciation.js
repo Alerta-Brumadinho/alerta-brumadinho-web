@@ -197,15 +197,11 @@ const Denunciation = (props) => {
         )}
 
         <div className="new-comment-container">
-          {denunciation.publisher ? (
-            <Avatar
-              size={32}
-              icon={<UserOutlined />}
-              src={user ? user.photo : null}
-            />
-          ) : (
-            <Avatar size={32} icon={<UserOutlined />} />
-          )}
+          <Avatar
+            size={32}
+            icon={<UserOutlined />}
+            src={user ? user.photo : null}
+          />
           <Input
             className="new-comment-input"
             placeholder="Adicionar comentário..."
