@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Avatar, Card, Button, Input } from "antd";
 import {
@@ -11,12 +11,21 @@ import Comment from "../Comment/Comment";
 
 import "./Denunciation.css";
 
-import { getToken, isAnExternalUser } from "../../services/user";
+import { getToken, getUserFromDb, isAnExternalUser } from "../../services/user";
 import { errorNotification } from "../../services/messages";
 
 const Denunciation = (props) => {
   const [denunciation, setDenunciation] = useState(props.denunciation);
   const [newComment, setNewComment] = useState("");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (!isAnExternalUser()) {
+      getUserFromDb().then((result) => {
+        setUser(result);
+      });
+    }
+  }, []);
 
   const likeButtonClicked = () => {
     let route = "";
@@ -181,7 +190,10 @@ const Denunciation = (props) => {
             return <Comment key={c._id} comment={c} userId={props.userId} />;
           })
         ) : (
-          <div className="comments-empty"> Nenhum comentário até o momento...</div>
+          <div className="comments-empty">
+            {" "}
+            Nenhum comentário até o momento...
+          </div>
         )}
 
         <div className="new-comment-container">
@@ -189,11 +201,7 @@ const Denunciation = (props) => {
             <Avatar
               size={32}
               icon={<UserOutlined />}
-              src={
-                denunciation.publisher.photo
-                  ? denunciation.publisher.photo
-                  : null
-              }
+              src={user ? user.photo : null}
             />
           ) : (
             <Avatar size={32} icon={<UserOutlined />} />
