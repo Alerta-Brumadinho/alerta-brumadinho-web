@@ -2,11 +2,15 @@
   .denunciation-card {
     width: 80vw !important;
   }
+
+  .comments-card {
+    width: 80vw !important;
+  }
 }
 
 .denunciation-card {
   width: 40vw;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 }
 
 .denunciation-card-publisher-date {
@@ -47,4 +51,25 @@
 .denunciation-card-publisher {
   display: flex;
   align-items: center;
+}
+
+.comments-card {
+  width: 40vw;
+  margin-bottom: 24px;
+}
+
+.new-comment-container {
+  margin-top: 16px;
+  display: flex;
+}
+
+.new-comment-input {
+  margin: 0 4px 0 8px;
+  width: 80%;
+}
+
+.comments-empty {
+  color: #dddddd;
+  text-align: center;
+  margin-top: 8px;
 }
