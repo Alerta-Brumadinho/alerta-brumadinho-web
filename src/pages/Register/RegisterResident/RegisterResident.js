@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import MaskedInput from "antd-mask-input";
 import { Redirect, Link } from "react-router-dom";
@@ -9,7 +9,6 @@ import {
   Input,
   Button,
   Upload,
-  Select,
   message,
   Card,
   Typography,
@@ -30,17 +29,17 @@ import {
   errorNotification,
 } from "../../../services/messages";
 
-const { Option } = Select;
+// const { Option } = Select;
 const { Title, Text } = Typography;
 const logo = require("../../../assets/images/logo_512.png");
 
 const RegisterResident = (props) => {
-  const [ufs, setUfs] = useState([]);
-  const [selectedUf, setSelectedUf] = useState({ key: null, value: null });
-  const [cities, setCities] = useState([]);
+  // const [ufs, setUfs] = useState([]);
+  // const [selectedUf, setSelectedUf] = useState({ key: null, value: null });
+  // const [cities, setCities] = useState([]);
 
-  const [ufsLoading, setUfsLoading] = useState(false);
-  const [citiesLoading, setCitiesLoading] = useState(false);
+  // const [ufsLoading, setUfsLoading] = useState(false);
+  // const [citiesLoading, setCitiesLoading] = useState(false);
 
   const [nav, setNav] = useState(null);
   const [submit, setSubmit] = useState({ disabled: false, loading: false });
@@ -50,41 +49,46 @@ const RegisterResident = (props) => {
     file: null,
   });
 
-  useEffect(() => {
-    setUfsLoading(true);
+  /* This section is commented because we decided to enable denunciations only for Brumadinho - MG at 
+    the moment. In future, if the application scale to cover other cities, it's possible to uncomment this piece
+    of code for user selecting UF and City.
+  */
 
-    axios
-      .get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/")
-      .then((res) => {
-        setUfsLoading(false);
-        setUfs(res.data.sort((a, b) => a.sigla.localeCompare(b.sigla)));
-      })
-      .catch((error) => {
-        setUfsLoading(false);
-        errorNotification(
-          "Erro ao carregar a lista de estados do Brasil. Por favor, atualize a página!"
-        );
-      });
-  }, []);
+  // useEffect(() => {
+  //   setUfsLoading(true);
 
-  useEffect(() => {
-    setCitiesLoading(true);
+  //   axios
+  //     .get("https://servicodados.ibge.gov.br/api/v1/localidades/estados/")
+  //     .then((res) => {
+  //       setUfsLoading(false);
+  //       setUfs(res.data.sort((a, b) => a.sigla.localeCompare(b.sigla)));
+  //     })
+  //     .catch((error) => {
+  //       setUfsLoading(false);
+  //       errorNotification(
+  //         "Erro ao carregar a lista de estados do Brasil. Por favor, atualize a página!"
+  //       );
+  //     });
+  // }, []);
 
-    axios
-      .get(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf.key}/municipios`
-      )
-      .then((res) => {
-        setCitiesLoading(false);
-        setCities(res.data);
-      })
-      .catch((error) => {
-        setCitiesLoading(false);
-        errorNotification(
-          "Erro ao carregar a lista de municípios deste estado. Por favor, atualize a página!"
-        );
-      });
-  }, [selectedUf]);
+  // useEffect(() => {
+  //   setCitiesLoading(true);
+
+  //   axios
+  //     .get(
+  //       `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf.key}/municipios`
+  //     )
+  //     .then((res) => {
+  //       setCitiesLoading(false);
+  //       setCities(res.data);
+  //     })
+  //     .catch((error) => {
+  //       setCitiesLoading(false);
+  //       errorNotification(
+  //         "Erro ao carregar a lista de municípios deste estado. Por favor, atualize a página!"
+  //       );
+  //     });
+  // }, [selectedUf]);
 
   const beforeUpload = (file) => {
     if (
@@ -299,8 +303,12 @@ const RegisterResident = (props) => {
                 />
               </Form.Item>
 
+              {/* This section is commented because we decided to enable denunciations only for Brumadinho - MG at 
+              the moment. In future, if the application scale to cover other cities, it's possible to uncomment this piece
+               of code for user selecting UF and City.  */}
+
               {/* UF */}
-              <Form.Item
+              {/* <Form.Item
                 label="Estado:"
                 name="uf"
                 hasFeedback
@@ -328,10 +336,10 @@ const RegisterResident = (props) => {
                     </Option>
                   ))}
                 </Select>
-              </Form.Item>
+              </Form.Item> */}
 
               {/* City */}
-              <Form.Item
+              {/* <Form.Item
                 label="Município:"
                 name="city"
                 hasFeedback
@@ -358,7 +366,7 @@ const RegisterResident = (props) => {
                     </Option>
                   ))}
                 </Select>
-              </Form.Item>
+              </Form.Item> */}
 
               {/* Password */}
               <Form.Item

@@ -92,17 +92,17 @@ const Login = () => {
               rules={[
                 {
                   whitespace: true,
-                  message: "Por favor, insira um e-mail ou telefone válido!",
+                  message: "Por favor, insira um e-mail válido!",
                 },
                 {
                   required: true,
-                  message: "Por favor, insira seu e-mail ou telefone!",
+                  message: "Por favor, insira seu e-mail!",
                 },
               ]}
             >
               <Input
                 size="large"
-                placeholder="E-mail ou Telefone"
+                placeholder="E-mail"
                 maxLength={40}
                 prefix={<UserOutlined style={{ color: "#338221" }} />}
               />
