@@ -18,9 +18,7 @@ import {
   UserOutlined,
   CalendarOutlined,
   MailOutlined,
-  PhoneOutlined,
   LockOutlined,
-  SolutionOutlined,
   LoadingOutlined,
   PlusOutlined,
   LeftOutlined,
@@ -130,13 +128,9 @@ const RegisterResident = (props) => {
     delete values.confirmPassword;
 
     const birth = values.birth.split("/").reverse().join("-");
-    const cpf = values.cpf.replace(/[^0-9]/g, "");
-    const phone = values.phone.replace(/[^0-9]/g, "");
     const finalForm = {
       ...values,
-      cpf,
       birth,
-      phone,
       photo: photo.url,
     };
 
@@ -151,7 +145,7 @@ const RegisterResident = (props) => {
       })
       .catch(function (error) {
         if (error.response.status === 400) {
-          errorNotification("CPF, E-mail ou Telefone já cadastrado.");
+          errorNotification("E-mail já cadastrado.");
         } else {
           errorNotification();
         }
@@ -237,38 +231,6 @@ const RegisterResident = (props) => {
                 />
               </Form.Item>
 
-              {/* CPF */}
-              <Form.Item
-                label="CPF:"
-                name="cpf"
-                hasFeedback
-                validateFirst
-                rules={[
-                  {
-                    required: true,
-                    message: "Por favor, insira seu CPF!",
-                  },
-                  {
-                    len: 11,
-                    message: "Por favor, insira um CPF válido!",
-                    transform: (value) => {
-                      if (!value) {
-                        return value;
-                      }
-                      return value.replace(/[^0-9]/g, "");
-                    },
-                  },
-                ]}
-              >
-                <MaskedInput
-                  mask="111.111.111-11"
-                  size="large"
-                  maxLength={11}
-                  placeholder="123.456.789-00"
-                  prefix={<SolutionOutlined />}
-                />
-              </Form.Item>
-
               {/* Birth */}
               <Form.Item
                 label="Data de Nascimento:"
@@ -334,37 +296,6 @@ const RegisterResident = (props) => {
                   maxLength={40}
                   placeholder="meuemail@email.com"
                   prefix={<MailOutlined />}
-                />
-              </Form.Item>
-
-              {/* Phone */}
-              <Form.Item
-                label="Telefone:"
-                name="phone"
-                hasFeedback
-                validateFirst
-                rules={[
-                  {
-                    required: true,
-                    message: "Por favor, insira seu telefone!",
-                  },
-                  {
-                    len: 11,
-                    message: "Por favor, insira um telefone válido!",
-                    transform: (value) => {
-                      if (!value) {
-                        return value;
-                      }
-                      return value.replace(/[^0-9]/g, "");
-                    },
-                  },
-                ]}
-              >
-                <MaskedInput
-                  mask="(11) 11111-1111"
-                  size="large"
-                  placeholder="(31) 99999-9999"
-                  prefix={<PhoneOutlined />}
                 />
               </Form.Item>
 
