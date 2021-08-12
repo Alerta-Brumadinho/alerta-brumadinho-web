@@ -7,6 +7,7 @@ import {
   ContainerOutlined,
   CompassOutlined,
   HomeOutlined,
+  EyeOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -23,7 +24,7 @@ const logo = require("../../assets/images/logo_512.png");
 
 const Navbar = () => {
   const [userLocation, setUserLocation] = useState(null);
-  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [nav, setNav] = useState(null);
 
   const changeLocation = () => {
@@ -36,6 +37,7 @@ const Navbar = () => {
     if (isAnExternalUser()) setUserLocation(getLocation());
     else {
       getUserFromDb().then((result) => {
+        setUser(result);
         setUserLocation({ uf: result.uf, city: result.city });
       });
     }
@@ -67,9 +69,16 @@ const Navbar = () => {
           <Menu.Item key="3" icon={<CompassOutlined />}>
             Mapa de Denúncias
           </Menu.Item>
+
           <Menu.Item key="4" icon={<UserOutlined />}>
             Meu Perfil
           </Menu.Item>
+
+          {user?.type === "auditor" ? (
+            <Menu.Item key="5" icon={<EyeOutlined />} style={{backgroundColor: '#f0f0f0'}}>
+              <Link to="/audit">Validar Denúncias</Link>
+            </Menu.Item>
+          ) : null}
         </Menu>
       </div>
 
@@ -80,8 +89,7 @@ const Navbar = () => {
         </div>
 
         <h3>
-          {userLocation ? userLocation.city : null} -{" "}
-          {userLocation ? userLocation.uf : null}
+          {userLocation?.city} - {userLocation?.uf}
         </h3>
         <Button type="secondary" htmlType="submit" onClick={changeLocation}>
           Sair
