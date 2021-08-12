@@ -83,15 +83,16 @@ const Feed = (props) => {
             </Select>
           </div>
 
-          {denunciations
-            ? denunciations.map((d) => {
-                return (
-                  <Denunciation denunciation={d} key={d.id} userId={userId} />
-                );
-              })
-            : null}
+          {denunciations?.map((d) => {
+            return <Denunciation denunciation={d} key={d.id} userId={userId} />;
+          })}
 
-          <Button type="primary" size="large" onClick={createDenunciation} className="create-denunciation-button">
+          <Button
+            type="primary"
+            size="large"
+            onClick={createDenunciation}
+            className="create-denunciation-button"
+          >
             <PlusOutlined /> Registrar Denúncia
           </Button>
         </div>

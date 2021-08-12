@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Menu, Button } from "antd";
+import { Menu, Button, Badge } from "antd";
+import axios from "axios";
 import {
   UserOutlined,
   FileSearchOutlined,
@@ -13,10 +14,12 @@ import {
 import {
   getLocation,
   getUserFromDb,
+  getToken,
   deleteLocation,
   deleteToken,
   isAnExternalUser,
 } from "../../services/user";
+import { errorNotification } from "../../services/messages";
 
 import "./Navbar.css";
 
@@ -26,6 +29,8 @@ const Navbar = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [user, setUser] = useState(null);
   const [nav, setNav] = useState(null);
+  const [numberOfUnverifiedDenunciations, setNumberOfUnverifiedDenunciations] =
+    useState(null);
 
   const changeLocation = () => {
     deleteLocation();
@@ -42,6 +47,21 @@ const Navbar = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (user?.type === "auditor") {
+      axios
+        .get(`/denunciations/fromStatus/unverified&created&-1`, {
+          headers: { token: getToken() },
+        })
+        .then((res) => {
+          setNumberOfUnverifiedDenunciations(res.data.length);
+        })
+        .catch((error) => {
+          errorNotification();
+        });
+    }
+  }, [user]);
 
   if (nav) return <Redirect to={nav} />;
   return (
@@ -75,8 +95,14 @@ const Navbar = () => {
           </Menu.Item>
 
           {user?.type === "auditor" ? (
-            <Menu.Item key="5" icon={<EyeOutlined />} style={{backgroundColor: '#f0f0f0'}}>
-              <Link to="/audit">Validar Denúncias</Link>
+            <Menu.Item
+              key="5"
+              icon={<EyeOutlined />}
+              style={{ backgroundColor: "#f0f0f0" }}
+            >
+              <Badge count={numberOfUnverifiedDenunciations} offset={[15, 6]}>
+                <Link to="/audit">Validar Denúncias</Link>
+              </Badge>
             </Menu.Item>
           ) : null}
         </Menu>

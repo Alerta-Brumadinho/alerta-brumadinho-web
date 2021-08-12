@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Avatar, Card, Button, Input } from "antd";
+import PropTypes from "prop-types";
+import axios from "axios";
 import {
   LikeOutlined,
   LikeFilled,
   UserOutlined,
   SendOutlined,
+  CheckCircleOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
-import Comment from "../Comment/Comment";
 
 import "./Denunciation.css";
 
-import { getToken, getUserFromDb, isAnExternalUser } from "../../services/user";
+import Comment from "../Comment/Comment";
+import { timeSince } from "../../services/time";
 import { errorNotification } from "../../services/messages";
+import { getToken, getUserFromDb, isAnExternalUser } from "../../services/user";
 
 const Denunciation = (props) => {
   const [denunciation, setDenunciation] = useState(props.denunciation);
@@ -87,32 +91,6 @@ const Denunciation = (props) => {
     return false;
   };
 
-  const timeSince = (date) => {
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var interval = seconds / 31536000;
-
-    if (interval > 1) {
-      return "há " + Math.floor(interval) + " anos";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return "há " + Math.floor(interval) + " meses";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return "há " + Math.floor(interval) + " dias";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return "há " + Math.floor(interval) + " horas";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return "há " + Math.floor(interval) + " minutos";
-    }
-    return "há " + Math.floor(seconds + 1) + " segundos";
-  };
-
   return (
     <>
       <Card
@@ -168,57 +146,89 @@ const Denunciation = (props) => {
           })}
         </div>
 
-        <div className="denunciation-card-likes-container">
-          <Button
-            type={doILiked() ? "primary" : "secondary"}
-            onClick={likeButtonClicked}
-          >
-            {doILiked() ? <LikeFilled /> : <LikeOutlined />} Curtir
-          </Button>
+        {props.showLikesSection ? (
+          <div className="denunciation-card-likes-container">
+            <Button
+              type={doILiked() ? "primary" : "secondary"}
+              onClick={likeButtonClicked}
+            >
+              {doILiked() ? <LikeFilled /> : <LikeOutlined />} Curtir
+            </Button>
 
-          <div>{denunciation.likes.length} pessoas curtiram isso.</div>
-        </div>
-      </Card>
-
-      <Card
-        title={<b> Comentários dos usuários:</b>}
-        size="small"
-        className="comments-card"
-      >
-        {denunciation.comments.length ? (
-          denunciation.comments.map((c) => {
-            return <Comment key={c._id} comment={c} userId={props.userId} />;
-          })
-        ) : (
-          <div className="comments-empty">
-            {" "}
-            Nenhum comentário até o momento...
+            <div>{denunciation.likes.length} pessoas curtiram isso.</div>
           </div>
-        )}
+        ) : null}
 
-        <div className="new-comment-container">
-          <Avatar
-            size={32}
-            icon={<UserOutlined />}
-            src={user ? user.photo : null}
-          />
-          <Input
-            className="new-comment-input"
-            placeholder="Adicionar comentário..."
-            value={newComment}
-            onChange={(e) => newCommentChanged(e)}
-          />
-          <Button
-            disabled={newComment ? false : true}
-            type="primary"
-            onClick={submitNewComment}
-          >
-            <SendOutlined />
-          </Button>
-        </div>
+        {props.showAuditButtons ? (
+          <div className="denunciation-card-audit-container">
+            <Button type="primary" onClick={props.approveDenunciationFunction}>
+              <CheckCircleOutlined /> Aprovar Denúncia
+            </Button>
+
+            <Button type="danger" onClick={props.discardDenunciationFunction}>
+              <DeleteOutlined /> Descartar Denúncia
+            </Button>
+          </div>
+        ) : null}
       </Card>
+
+      {props.showCommentsSection ? (
+        <Card
+          title={<b> Comentários dos usuários:</b>}
+          size="small"
+          className="comments-card"
+        >
+          {denunciation.comments.length ? (
+            denunciation.comments.map((c) => {
+              return <Comment key={c._id} comment={c} userId={props.userId} />;
+            })
+          ) : (
+            <div className="comments-empty">
+              {" "}
+              Nenhum comentário até o momento...
+            </div>
+          )}
+
+          <div className="new-comment-container">
+            <Avatar
+              size={32}
+              icon={<UserOutlined />}
+              src={user ? user.photo : null}
+            />
+            <Input
+              className="new-comment-input"
+              placeholder="Adicionar comentário..."
+              value={newComment}
+              onChange={(e) => newCommentChanged(e)}
+            />
+            <Button
+              disabled={newComment ? false : true}
+              type="primary"
+              onClick={submitNewComment}
+            >
+              <SendOutlined />
+            </Button>
+          </div>
+        </Card>
+      ) : null}
     </>
   );
+};
+
+Denunciation.propTypes = {
+  type: PropTypes.oneOf(["feed", "audit"]),
+  showLikesSection: PropTypes.bool,
+  showAuditButtons: PropTypes.bool,
+  showCommentsSection: PropTypes.bool,
+  approveDenunciationFunction: PropTypes.func,
+  discardDenunciationFunction: PropTypes.func,
+};
+
+Denunciation.defaultProps = {
+  type: "feed",
+  showLikesSection: true,
+  showAuditButtons: false,
+  showCommentsSection: true,
 };
 
 export default Denunciation;

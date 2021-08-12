@@ -7,6 +7,7 @@ import "./App.less";
 import Login from "./pages/Login/Login";
 import Feed from "./pages/Feed/Feed";
 
+import Audit from "./pages/Audit/Audit";
 import RegisterResident from "./pages/Register/RegisterResident/RegisterResident";
 import RegisterPublicAgency from "./pages/Register/RegisterPublicAgency/RegisterPublicAgency";
 import ForgotPassword from "./pages/Password/ForgotPassword/ForgotPassword";
@@ -40,6 +41,14 @@ function App() {
         exact
         render={(props) =>
           getToken() ? <CreateDenunciation {...props} /> : <Redirect to="/" />
+        }
+      />
+
+      <Route
+        path="/audit"
+        exact
+        render={(props) =>
+          getToken() ? <Audit {...props} /> : <Redirect to="/" />
         }
       />
 
