@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import "./Login.css";
 
-import { setToken } from "../../services/user";
+import { setToken, setLocation } from "../../services/user";
 import {
   successNotification,
   errorNotification,
@@ -38,7 +38,10 @@ const Login = () => {
   };
 
   const accessWithoutRegistration = () => {
-    setNav("/selectLocation");
+    successNotification("Seja Bem-vindo ao Alerta Brumadinho!");
+    setToken("externalUser");
+    setLocation({ uf: "MG", city: "Brumadinho" });
+    setNav("/home");
   };
 
   if (nav) {

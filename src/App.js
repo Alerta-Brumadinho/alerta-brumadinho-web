@@ -9,7 +9,6 @@ import Feed from "./pages/Feed/Feed";
 
 import RegisterResident from "./pages/Register/RegisterResident/RegisterResident";
 import RegisterPublicAgency from "./pages/Register/RegisterPublicAgency/RegisterPublicAgency";
-import SelectLocation from "./pages/SelectLocation/SelectLocation";
 import ForgotPassword from "./pages/Password/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/Password/ResetPassword/ResetPassword";
 import CreateDenunciation from "./pages/CreateDenunciation/CreateDenunciation";
@@ -60,12 +59,17 @@ function App() {
         }
       />
 
-      <Route
+      {/* This section is commented because we decided to enable denunciations only for Brumadinho - MG at 
+      the moment. In future, if the application scale to cover other cities, it's possible to uncomment this piece
+      of code that redirects to the page for user selecting UF and City (to access without registration).
+      */}
+
+      {/* <Route
         path="/selectLocation"
         render={() =>
           getToken() ? <Redirect to="/feed" /> : <SelectLocation />
         }
-      />
+      /> */}
 
       <Route
         path="/forgot"
