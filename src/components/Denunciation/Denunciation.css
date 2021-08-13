@@ -78,3 +78,43 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+
+
+.comment-container {
+  display: flex;
+}
+
+.comment-publisher {
+  font-weight: bold;
+  color: #666666;
+}
+
+.comment-like-container {
+  display: flex;
+  margin-left: 4px;
+  color: #666666;
+  padding-bottom: 8px;
+}
+
+.comment-publisher-container {
+  background-color: #eeeeee;
+  padding: 8px 12px 12px 12px;
+  margin-bottom: 4px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.like-comment-button {
+  cursor: pointer;
+  color: #666666;
+}
+
+.like-comment-button:hover {
+  text-decoration: underline;
+}
+
+.liked {
+  font-weight: bold;
+  color: #338221;
+}

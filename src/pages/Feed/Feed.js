@@ -24,8 +24,7 @@ const Feed = (props) => {
   const [nav, setNav] = useState(null);
   const [denunciations, setDenunciations] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
-  const [userId, setUserId] = useState(null);
-
+  const [loggedUser, setLoggedUser] = useState(null);
   const [orderBy, setOrderBy] = useState("created"); // Default denunciations order: by date / recent first
 
   const createDenunciation = () => {
@@ -53,14 +52,10 @@ const Feed = (props) => {
     else {
       getUserFromDb().then((result) => {
         setUserLocation({ uf: result.uf, city: result.city });
-        setUserId(result._id);
+        setLoggedUser(result);
       });
     }
   }, []);
-
-  useEffect(() => {
-    console.log(denunciations);
-  }, [denunciations]);
 
   if (nav) return <Redirect to={nav} />;
   else {
@@ -84,7 +79,15 @@ const Feed = (props) => {
           </div>
 
           {denunciations?.map((d) => {
-            return <Denunciation denunciation={d} key={d.id} userId={userId} />;
+            return (
+              <Denunciation
+                key={d._id}
+                denunciation={d}
+                loggedUser={loggedUser}
+                showLikesSection={true}
+                showCommentsSection={true}
+              />
+            );
           })}
 
           <Button

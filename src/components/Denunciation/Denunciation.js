@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Avatar, Card, Button, Input } from "antd";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -13,53 +13,23 @@ import {
 
 import "./Denunciation.css";
 
-import Comment from "../Comment/Comment";
 import { timeSince } from "../../services/time";
 import { errorNotification } from "../../services/messages";
-import { getToken, getUserFromDb, isAnExternalUser } from "../../services/user";
+import { getToken, isAnExternalUser } from "../../services/user";
 
 const Denunciation = (props) => {
   const [denunciation, setDenunciation] = useState(props.denunciation);
+  const [comments, setComments] = useState(props.denunciation.comments);
   const [newComment, setNewComment] = useState("");
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    if (!isAnExternalUser()) {
-      getUserFromDb().then((result) => {
-        setUser(result);
-      });
-    }
-  }, []);
-
-  const likeButtonClicked = () => {
-    let route = "";
-
-    if (isAnExternalUser()) {
-      errorNotification(
-        "Você não tem permissão para realizar esta ação. Por favor, faça login ou se cadastre!"
-      );
-    } else {
-      if (doILiked()) {
-        route = `/denunciations/removeLike/${denunciation._id}`;
-      } else {
-        route = `/denunciations/like/${denunciation._id}`;
-      }
-
-      axios
-        .post(route, null, {
-          headers: { token: getToken() },
-        })
-        .then((res) => {
-          setDenunciation(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+  const handleNewCommentField = (e) => {
+    console.log(e.target.value);
+    setNewComment(e.target.value);
   };
 
-  const newCommentChanged = (e) => {
-    setNewComment(e.target.value);
+  const doILiked = (commentOrDenunciation) => {
+    if (commentOrDenunciation.likes.includes(props.loggedUser._id)) return true;
+    return false;
   };
 
   const submitNewComment = () => {
@@ -78,6 +48,7 @@ const Denunciation = (props) => {
         )
         .then((res) => {
           setDenunciation(res.data);
+          setComments(res.data.comments)
           setNewComment("");
         })
         .catch((error) => {
@@ -86,9 +57,63 @@ const Denunciation = (props) => {
     }
   };
 
-  const doILiked = () => {
-    if (denunciation.likes.includes(props.userId)) return true;
-    return false;
+  const likeCommentButtonClicked = (comment) => {
+    let route = "";
+
+    if (isAnExternalUser()) {
+      errorNotification(
+        "Você não tem permissão para realizar esta ação. Por favor, faça login ou se cadastre!"
+      );
+    } else {
+      if (doILiked(comment)) {
+        route = `/comments/removeLike/${comment._id}`;
+      } else {
+        route = `/comments/like/${comment._id}`;
+      }
+
+      axios
+        .post(route, null, {
+          headers: { token: getToken() },
+        })
+        .then((res) => {
+          setComments(
+            comments.map((c) => {
+              return c._id === res.data._id ? res.data : c;
+            })
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleLikeDenunciationButton = () => {
+    console.log("handle like");
+    let route = "";
+
+    if (isAnExternalUser()) {
+      errorNotification(
+        "Você não tem permissão para realizar esta ação. Por favor, faça login ou se cadastre!"
+      );
+    } else {
+      if (doILiked(denunciation)) {
+        route = `/denunciations/removeLike/${denunciation._id}`;
+      } else {
+        route = `/denunciations/like/${denunciation._id}`;
+      }
+
+      axios
+        .post(route, null, {
+          headers: { token: getToken() },
+        })
+        .then((res) => {
+          setDenunciation(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -149,10 +174,11 @@ const Denunciation = (props) => {
         {props.showLikesSection ? (
           <div className="denunciation-card-likes-container">
             <Button
-              type={doILiked() ? "primary" : "secondary"}
-              onClick={likeButtonClicked}
+              type={doILiked(denunciation) ? "primary" : "secondary"}
+              onClick={() => handleLikeDenunciationButton()}
             >
-              {doILiked() ? <LikeFilled /> : <LikeOutlined />} Curtir
+              {doILiked(denunciation) ? <LikeFilled /> : <LikeOutlined />}{" "}
+              Curtir
             </Button>
 
             <div>{denunciation.likes.length} pessoas curtiram isso.</div>
@@ -178,9 +204,43 @@ const Denunciation = (props) => {
           size="small"
           className="comments-card"
         >
-          {denunciation.comments.length ? (
-            denunciation.comments.map((c) => {
-              return <Comment key={c._id} comment={c} userId={props.userId} />;
+          {comments.length ? (
+            comments.map((c) => {
+              return (
+                <div className="comment-container" key={c._id}>
+                  <Avatar
+                    style={{ marginTop: "4px" }}
+                    size={32}
+                    icon={<UserOutlined />}
+                    src={c.publisher.photo !== "N/A" ? c.publisher.photo : null}
+                  />
+                  <div style={{ marginLeft: "8px" }}>
+                    <div className="comment-publisher-container">
+                      <div className="comment-publisher">
+                        {c.publisher.name}:{" "}
+                      </div>
+                      <div className="comment-description">{c.description}</div>
+                    </div>
+
+                    <div className="comment-like-container">
+                      <div
+                        className={
+                          doILiked(c)
+                            ? "like-comment-button liked"
+                            : "like-comment-button"
+                        }
+                        onClick={() => likeCommentButtonClicked(c)}
+                      >
+                        Curtir
+                      </div>
+                      <div>
+                        &nbsp;· {timeSince(new Date(c.created))} ·&nbsp;
+                      </div>
+                      <div>{c.likes.length} curtidas</div>
+                    </div>
+                  </div>
+                </div>
+              );
             })
           ) : (
             <div className="comments-empty">
@@ -193,13 +253,13 @@ const Denunciation = (props) => {
             <Avatar
               size={32}
               icon={<UserOutlined />}
-              src={user ? user.photo : null}
+              src={props.loggedUser ? props.loggedUser.photo : null}
             />
             <Input
               className="new-comment-input"
               placeholder="Adicionar comentário..."
               value={newComment}
-              onChange={(e) => newCommentChanged(e)}
+              onChange={(e) => handleNewCommentField(e)}
             />
             <Button
               disabled={newComment ? false : true}
@@ -216,7 +276,6 @@ const Denunciation = (props) => {
 };
 
 Denunciation.propTypes = {
-  type: PropTypes.oneOf(["feed", "audit"]),
   showLikesSection: PropTypes.bool,
   showAuditButtons: PropTypes.bool,
   showCommentsSection: PropTypes.bool,
@@ -225,7 +284,6 @@ Denunciation.propTypes = {
 };
 
 Denunciation.defaultProps = {
-  type: "feed",
   showLikesSection: true,
   showAuditButtons: false,
   showCommentsSection: true,

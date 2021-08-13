@@ -14,6 +14,20 @@ const Audit = (props) => {
   const [user, setUser] = useState(null);
   const [unverifiedDenunciations, setUnverifiedDenunciations] = useState(null);
 
+  const getUnverifiedDenunciations = () => {
+    axios
+      .get(`/denunciations/fromStatus/unverified&created&-1`, {
+        headers: { token: getToken() },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setUnverifiedDenunciations(res.data);
+      })
+      .catch((error) => {
+        errorNotification();
+      });
+  };
+
   const approveDenunciation = (denunciation) => {
     axios
       .put(
@@ -64,20 +78,6 @@ const Audit = (props) => {
     }
   }, [user]);
 
-  const getUnverifiedDenunciations = () => {
-    axios
-      .get(`/denunciations/fromStatus/unverified&created&-1`, {
-        headers: { token: getToken() },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setUnverifiedDenunciations(res.data);
-      })
-      .catch((error) => {
-        errorNotification();
-      });
-  };
-
   if (nav) return <Redirect to={nav} />;
   else {
     return (
@@ -87,9 +87,7 @@ const Audit = (props) => {
         <div className="main-layout-content">
           {unverifiedDenunciations?.map((d) => (
             <Denunciation
-              key={d.id}
-              type="audit"
-              userId={user._id}
+              key={d._id}
               denunciation={d}
               showAuditButtons={true}
               showLikesSection={false}
