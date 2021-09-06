@@ -99,7 +99,6 @@ const Navbar = () => {
             <Menu.Item
               key="5"
               icon={<EyeOutlined />}
-              style={{ backgroundColor: "#f0f0f0" }}
             >
               <Badge count={numberOfUnverifiedDenunciations} offset={[15, 6]}>
                 <Link to="/audit">Validar Denúncias</Link>

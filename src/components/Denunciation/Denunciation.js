@@ -28,14 +28,15 @@ const Denunciation = (props) => {
   };
 
   const doILiked = (commentOrDenunciation) => {
-    if (commentOrDenunciation.likes.includes(props.loggedUser._id)) return true;
+    if (isAnExternalUser()) return false;
+    else if (commentOrDenunciation.likes.includes(props.loggedUser._id)) return true;
     return false;
   };
 
   const submitNewComment = () => {
     if (isAnExternalUser()) {
       errorNotification(
-        "Você não tem permissão para realizar esta ação. Por favor, faça login ou se cadastre!"
+        "Você não tem permissão para realizar esta ação. Por favor, faça login ou cadastre-se!"
       );
     } else {
       axios

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-import { Button, Select, Skeleton } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Select, Skeleton, Card } from "antd";
+import { PlusOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 import axios from "axios";
 
@@ -23,6 +24,7 @@ const { Option } = Select;
 const Feed = (props) => {
   const [nav, setNav] = useState(null);
   const [denunciations, setDenunciations] = useState(null);
+  const [hasMoreDenunciations, setHasMoreDenunciations] = useState(true);
   const [loadingDenunciations, setLoadingDenunciations] = useState(true);
   const [userLocation, setUserLocation] = useState(null);
   const [loggedUser, setLoggedUser] = useState(null);
@@ -30,6 +32,29 @@ const Feed = (props) => {
 
   const createDenunciation = () => {
     setNav("/createDenunciation");
+  };
+
+  const fetchData = () => {
+    console.log("next");
+    axios
+      .get(
+        `/denunciations/fromCity/${userLocation.uf}&${
+          userLocation.city
+        }&${orderBy}&-1/${denunciations[denunciations.length - 1].created}/${
+          denunciations[denunciations.length - 1]._id
+        }`
+      )
+      .then((res) => {
+        console.log(res.data);
+        setDenunciations(denunciations.concat(res.data));
+
+        if (!res.data.length) {
+          setHasMoreDenunciations(false);
+        }
+      })
+      .catch((error) => {
+        errorNotification();
+      });
   };
 
   useEffect(() => {
@@ -110,17 +135,39 @@ const Feed = (props) => {
               />
             </div>
           ) : (
-            denunciations?.map((d) => {
-              return (
-                <Denunciation
-                  key={d._id}
-                  denunciation={d}
-                  loggedUser={loggedUser}
-                  showLikesSection={true}
-                  showCommentsSection={true}
+            <InfiniteScroll
+              dataLength={denunciations.length}
+              next={fetchData}
+              hasMore={hasMoreDenunciations}
+              loader={
+                <Skeleton
+                  className="skeleton-container"
+                  active={true}
+                  avatar={true}
+                  paragraph={{ rows: 8 }}
+                  round={true}
+                  title={true}
                 />
-              );
-            })
+              }
+              endMessage={
+                <Card className="that-is-call-card">
+                  Isso é tudo! &nbsp;
+                  <CheckCircleOutlined style={{color: '#338221'}} />
+                </Card>
+              }
+            >
+              {denunciations?.map((d) => {
+                return (
+                  <Denunciation
+                    key={d._id}
+                    denunciation={d}
+                    loggedUser={loggedUser}
+                    showLikesSection={true}
+                    showCommentsSection={true}
+                  />
+                );
+              })}
+            </InfiniteScroll>
           )}
 
           <Button
