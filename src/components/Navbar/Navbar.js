@@ -42,6 +42,7 @@ const Navbar = () => {
     if (isAnExternalUser()) setUserLocation(getLocation());
     else {
       getUserFromDb().then((result) => {
+        console.log(result)
         setUser(result);
         setUserLocation({ uf: result.uf, city: result.city });
       });
@@ -51,7 +52,7 @@ const Navbar = () => {
   useEffect(() => {
     if (user?.type === "auditor") {
       axios
-        .get(`/denunciations/fromStatus/unverified&created&-1`, {
+        .get(`/denunciations/fromStatusAndCity/unverified&MG&Brumadinho&created&-1`, {
           headers: { token: getToken() },
         })
         .then((res) => {

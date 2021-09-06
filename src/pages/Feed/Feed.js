@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 
-import { Button, Select } from "antd";
+import { Button, Select, Skeleton } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 import axios from "axios";
@@ -23,6 +23,7 @@ const { Option } = Select;
 const Feed = (props) => {
   const [nav, setNav] = useState(null);
   const [denunciations, setDenunciations] = useState(null);
+  const [loadingDenunciations, setLoadingDenunciations] = useState(true);
   const [userLocation, setUserLocation] = useState(null);
   const [loggedUser, setLoggedUser] = useState(null);
   const [orderBy, setOrderBy] = useState("created"); // Default denunciations order: by date / recent first
@@ -40,6 +41,7 @@ const Feed = (props) => {
         .then((res) => {
           console.log(res.data);
           setDenunciations(res.data);
+          setLoadingDenunciations(false);
         })
         .catch((error) => {
           errorNotification();
@@ -78,17 +80,48 @@ const Feed = (props) => {
             </Select>
           </div>
 
-          {denunciations?.map((d) => {
-            return (
-              <Denunciation
-                key={d._id}
-                denunciation={d}
-                loggedUser={loggedUser}
-                showLikesSection={true}
-                showCommentsSection={true}
+          {loadingDenunciations ? (
+            <div>
+              <Skeleton
+                className="skeleton-container"
+                active={true}
+                avatar={true}
+                paragraph={{ rows: 8 }}
+                round={true}
+                title={true}
               />
-            );
-          })}
+
+              <Skeleton
+                className="skeleton-container"
+                active={true}
+                avatar={true}
+                paragraph={{ rows: 8 }}
+                round={true}
+                title={true}
+              />
+
+              <Skeleton
+                className="skeleton-container"
+                active={true}
+                avatar={true}
+                paragraph={{ rows: 8 }}
+                round={true}
+                title={true}
+              />
+            </div>
+          ) : (
+            denunciations?.map((d) => {
+              return (
+                <Denunciation
+                  key={d._id}
+                  denunciation={d}
+                  loggedUser={loggedUser}
+                  showLikesSection={true}
+                  showCommentsSection={true}
+                />
+              );
+            })
+          )}
 
           <Button
             type="primary"

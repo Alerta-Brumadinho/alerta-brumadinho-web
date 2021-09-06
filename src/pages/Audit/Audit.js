@@ -16,7 +16,7 @@ const Audit = (props) => {
 
   const getUnverifiedDenunciations = () => {
     axios
-      .get(`/denunciations/fromStatus/unverified&created&-1`, {
+      .get(`/denunciations/fromStatusAndCity/unverified&MG&Brumadinho&created&-1`, {
         headers: { token: getToken() },
       })
       .then((res) => {

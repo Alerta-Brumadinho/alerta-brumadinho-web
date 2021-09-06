@@ -90,7 +90,7 @@ const Login = () => {
             onFinish={login}
           >
             <Form.Item
-              name="emailOrPhone"
+              name="email"
               validateFirst
               rules={[
                 {
