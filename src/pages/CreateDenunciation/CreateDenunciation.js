@@ -360,7 +360,7 @@ const CreateDenunciation = () => {
               />
               <LocationMarker />
               <Polygon
-                pathOptions={{ color: "transparent", fillColor: "black" }}
+                pathOptions={{ color: "transparent", fillColor: "transparent" }}
                 positions={brumadinhoPolygon}
               />
             </MapContainer>
