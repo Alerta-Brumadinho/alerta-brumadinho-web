@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../components/Navbar/Navbar";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Polygon,
+  useMapEvents,
+} from "react-leaflet";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Radio,
@@ -46,6 +52,52 @@ const steps = [
   },
 ];
 
+const brumadinhoPolygon = [
+  [-20.1358916, -44.3899424 ],
+  [-20.009484, -43.9736273],
+  [-20.3105012, -43.9722533],
+];
+
+// const brumadinhoPolygon = [
+//   [-44.3090435, -20.1881017],
+//   [-44.3082968, -20.1926129],
+//   [-44.3000529, -20.20679],
+//   [-44.295931, -20.2274089],
+//   [-44.2773823, -20.2409386],
+//   [-44.2588336, -20.2589763],
+//   [-44.234102, -20.2518903],
+//   [-44.2011266, -20.2486693],
+//   [-44.1660901, -20.2441598],
+//   [-44.1516634, -20.2589763],
+//   [-44.1365496, -20.2866731],
+//   [-44.1276188, -20.3143648],
+//   [-44.1056351, -20.3272431],
+//   [-44.0747206, -20.3362572],
+//   [-44.0252575, -20.3375449],
+//   [-43.9730463, -20.3259553],
+//   [-43.9448798, -20.3105012],
+//   [-43.9517497, -20.2840968],
+//   [-43.9709854, -20.2441598],
+//   [-43.9792292, -20.1984128],
+//   [-43.9669231, -20.1494293],
+//   [-43.97448, -20.1171949],
+//   [-43.9875328, -20.093982],
+//   [-43.9847848, -20.0507711],
+//   [-44.0040205, -20.0578663],
+//   [-44.0631015, -20.0701208],
+//   [-44.097451, -20.0752803],
+//   [-44.1256175, -20.0752803],
+//   [-44.1620279, -20.0701208],
+//   [-44.215613, -20.0759252],
+//   [-44.2369097, -20.0836641],
+//   [-44.2719461, -20.0888231],
+//   [-44.2877468, -20.1036545],
+//   [-44.3310271, -20.1152606],
+//   [-44.338584, -20.1275106],
+//   [-44.3482018, -20.161032],
+//   [-44.3090435, -20.1881017],
+// ];
+
 const CreateDenunciation = () => {
   const [nav, setNav] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
@@ -62,8 +114,6 @@ const CreateDenunciation = () => {
 
   // Map Settings States
   const [zoom, setZoom] = useState(14);
-  const [firstTime, setFirstTime] = useState(true);
-
   const [denunciation, setDenunciation] = useState({
     category: null,
     title: null,
@@ -143,7 +193,7 @@ const CreateDenunciation = () => {
         setCategories(res.data);
       })
       .catch((error) => {
-        console.log(error.message)
+        console.log(error.message);
         setCategoriesLoading(false);
         errorNotification(
           "Erro ao carregar a lista de categorias. Por favor, atualize a página!"
@@ -151,14 +201,31 @@ const CreateDenunciation = () => {
       });
   };
 
+  const isMarkerInsidePolygon = (marker) => {
+    var polyPoints = brumadinhoPolygon;
+    var x = marker.lat,
+      y = marker.lng;
+
+    var inside = false;
+    for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+      var xi = polyPoints[i][0],
+        yi = polyPoints[i][1];
+      var xj = polyPoints[j][0],
+        yj = polyPoints[j][1];
+
+      var intersect =
+        yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+      if (intersect) inside = !inside;
+    }
+    console.log(inside);
+    return inside;
+  };
+
   const LocationMarker = () => {
-    const map = useMapEvents({
+    useMapEvents({
       click(e) {
-        setFirstStepIsValid(true);
-        if (firstTime) {
-          map.locate();
-          setFirstTime(false);
-        } else {
+        if(isMarkerInsidePolygon(e.latlng)) {
+          setFirstStepIsValid(true);
           setDenunciation({
             ...denunciation,
             location: {
@@ -166,22 +233,11 @@ const CreateDenunciation = () => {
               coordinates: [e.latlng.lat, e.latlng.lng],
             },
           });
+        } else {
+          errorNotification('Você deve selecionar um local dentro de Brumadinho - MG!')
         }
+
       },
-
-      locationfound(e) {
-        setDenunciation({
-          ...denunciation,
-          location: {
-            ...denunciation.location,
-            coordinates: [e.latlng.lat, e.latlng.lng],
-          },
-        });
-
-        map.flyTo(e.latlng, map.getZoom());
-        setFirstStepIsValid(true);
-      },
-
       zoomend(e) {
         setZoom(e.target._zoom);
       },
@@ -303,6 +359,10 @@ const CreateDenunciation = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               <LocationMarker />
+              <Polygon
+                pathOptions={{ color: "transparent", fillColor: "black" }}
+                positions={brumadinhoPolygon}
+              />
             </MapContainer>
           ) : /* Step 2 - Basic Info */
           currentStep === 1 ? (
