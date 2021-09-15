@@ -214,6 +214,7 @@ const CreateDenunciation = () => {
         yj = polyPoints[j][1];
 
       var intersect =
+        // eslint-disable-next-line no-mixed-operators
         yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
       if (intersect) inside = !inside;
     }
