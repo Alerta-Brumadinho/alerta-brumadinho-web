@@ -19,21 +19,31 @@ import { getToken, isAnExternalUser } from "../../services/user";
 
 const Denunciation = (props) => {
   const [denunciation, setDenunciation] = useState(props.denunciation);
-  const [comments, setComments] = useState(props.denunciation.comments);
-  const [newComment, setNewComment] = useState("");
+  const [residentsComments, setResidentsComments] = useState(
+    props.denunciation.residentsComments
+  );
+  const [publicAgenciesComments, setPublicAgenciesComments] = useState(
+    props.denunciation.publicAgenciesComments
+  );
+  const [newResidentComment, setNewResidentComment] = useState("");
+  const [newPublicAgencyComment, setNewPublicAgencyComment] = useState("");
 
-  const handleNewCommentField = (e) => {
-    console.log(e.target.value);
-    setNewComment(e.target.value);
+  const handleNewResidentCommentField = (e) => {
+    setNewResidentComment(e.target.value);
+  };
+
+  const handleNewPublicAgencyCommentField = (e) => {
+    setNewPublicAgencyComment(e.target.value);
   };
 
   const doILiked = (commentOrDenunciation) => {
     if (isAnExternalUser()) return false;
-    else if (commentOrDenunciation.likes.includes(props.loggedUser._id)) return true;
+    else if (commentOrDenunciation.likes.includes(props.loggedUser._id))
+      return true;
     return false;
   };
 
-  const submitNewComment = () => {
+  const submitNewResidentComment = () => {
     if (isAnExternalUser()) {
       errorNotification(
         "Você não tem permissão para realizar esta ação. Por favor, faça login ou cadastre-se!"
@@ -42,15 +52,40 @@ const Denunciation = (props) => {
       axios
         .post(
           `/denunciations/comment/${denunciation._id}`,
-          { description: newComment },
+          { description: newResidentComment },
           {
             headers: { token: getToken() },
           }
         )
         .then((res) => {
           setDenunciation(res.data);
-          setComments(res.data.comments)
-          setNewComment("");
+          setResidentsComments(res.data.residentsComments);
+          setNewResidentComment("");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const submitNewPublicAgencyComment = () => {
+    if (isAnExternalUser()) {
+      errorNotification(
+        "Você não tem permissão para realizar esta ação. Por favor, faça login ou cadastre-se!"
+      );
+    } else {
+      axios
+        .post(
+          `/denunciations/comment/${denunciation._id}`,
+          { description: newPublicAgencyComment },
+          {
+            headers: { token: getToken() },
+          }
+        )
+        .then((res) => {
+          setDenunciation(res.data);
+          setPublicAgenciesComments(res.data.publicAgenciesComments);
+          setNewPublicAgencyComment("");
         })
         .catch((error) => {
           console.log(error);
@@ -77,11 +112,20 @@ const Denunciation = (props) => {
           headers: { token: getToken() },
         })
         .then((res) => {
-          setComments(
-            comments.map((c) => {
-              return c._id === res.data._id ? res.data : c;
-            })
-          );
+          console.log(res.data);
+          if (res.data.userType === "Resident") {
+            setResidentsComments(
+              residentsComments.map((c) => {
+                return c._id === res.data._id ? res.data : c;
+              })
+            );
+          } else if (res.data.userType === "PublicAgency") {
+            setPublicAgenciesComments(
+              publicAgenciesComments.map((c) => {
+                return c._id === res.data._id ? res.data : c;
+              })
+            );
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -199,14 +243,14 @@ const Denunciation = (props) => {
         ) : null}
       </Card>
 
-      {props.showCommentsSection ? (
+      {props.showPublicAgenciesCommentsSection ? (
         <Card
-          title={<b> Comentários dos usuários:</b>}
+          title={<b> Comentários do órgão público:</b>}
           size="small"
           className="comments-card"
         >
-          {comments.length ? (
-            comments.map((c) => {
+          {publicAgenciesComments?.length ? (
+            publicAgenciesComments.map((c) => {
               return (
                 <div className="comment-container" key={c._id}>
                   <Avatar
@@ -250,26 +294,104 @@ const Denunciation = (props) => {
             </div>
           )}
 
-          <div className="new-comment-container">
-            <Avatar
-              size={32}
-              icon={<UserOutlined />}
-              src={props.loggedUser ? props.loggedUser.photo : null}
-            />
-            <Input
-              className="new-comment-input"
-              placeholder="Adicionar comentário..."
-              value={newComment}
-              onChange={(e) => handleNewCommentField(e)}
-            />
-            <Button
-              disabled={newComment ? false : true}
-              type="primary"
-              onClick={submitNewComment}
-            >
-              <SendOutlined />
-            </Button>
-          </div>
+          {props.loggedUser?.type === "agency" ? (
+            <div className="new-comment-container">
+              <Avatar
+                size={32}
+                icon={<UserOutlined />}
+                src={props.loggedUser ? props.loggedUser.photo : null}
+              />
+              <Input
+                className="new-comment-input"
+                placeholder="Adicionar comentário..."
+                value={newPublicAgencyComment}
+                onChange={(e) => handleNewPublicAgencyCommentField(e)}
+              />
+              <Button
+                disabled={newPublicAgencyComment ? false : true}
+                type="primary"
+                onClick={submitNewPublicAgencyComment}
+              >
+                <SendOutlined />
+              </Button>
+            </div>
+          ) : null}
+        </Card>
+      ) : null}
+
+      {props.showResidentsCommentsSection ? (
+        <Card
+          title={<b> Comentários dos usuários:</b>}
+          size="small"
+          className="comments-card comments-card-residents"
+        >
+          {residentsComments?.length ? (
+            residentsComments.map((c) => {
+              return (
+                <div className="comment-container" key={c._id}>
+                  <Avatar
+                    style={{ marginTop: "4px" }}
+                    size={32}
+                    icon={<UserOutlined />}
+                    src={c.publisher.photo !== "N/A" ? c.publisher.photo : null}
+                  />
+                  <div style={{ marginLeft: "8px" }}>
+                    <div className="comment-publisher-container">
+                      <div className="comment-publisher">
+                        {c.publisher.name}:{" "}
+                      </div>
+                      <div className="comment-description">{c.description}</div>
+                    </div>
+
+                    <div className="comment-like-container">
+                      <div
+                        className={
+                          doILiked(c)
+                            ? "like-comment-button liked"
+                            : "like-comment-button"
+                        }
+                        onClick={() => likeCommentButtonClicked(c)}
+                      >
+                        Curtir
+                      </div>
+                      <div>
+                        &nbsp;· {timeSince(new Date(c.created))} ·&nbsp;
+                      </div>
+                      <div>{c.likes.length} curtidas</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="comments-empty">
+              {" "}
+              Nenhum comentário até o momento...
+            </div>
+          )}
+
+          {props.loggedUser?.type !== "agency" ? (
+            <div className="new-comment-container">
+              <Avatar
+                size={32}
+                icon={<UserOutlined />}
+                src={props.loggedUser ? props.loggedUser.photo : null}
+              />
+              <Input
+                className="new-comment-input"
+                placeholder="Adicionar comentário..."
+                value={newResidentComment}
+                onChange={(e) => handleNewResidentCommentField(e)}
+              />
+              <Button
+                disabled={newResidentComment ? false : true}
+                type="primary"
+                onClick={submitNewResidentComment}
+              >
+                <SendOutlined />
+              </Button>
+            </div>
+          ) : null}
         </Card>
       ) : null}
     </>

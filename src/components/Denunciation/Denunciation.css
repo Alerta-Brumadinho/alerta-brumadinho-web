@@ -55,7 +55,11 @@
 
 .comments-card {
   width: 40vw;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
+}
+
+.comments-card-residents{
+  margin-bottom: 32px !important;
 }
 
 .new-comment-container {

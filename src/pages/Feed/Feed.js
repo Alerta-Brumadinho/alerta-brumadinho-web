@@ -152,7 +152,7 @@ const Feed = (props) => {
               endMessage={
                 <Card className="that-is-call-card">
                   Isso é tudo! &nbsp;
-                  <CheckCircleOutlined style={{color: '#338221'}} />
+                  <CheckCircleOutlined style={{ color: "#338221" }} />
                 </Card>
               }
             >
@@ -163,7 +163,8 @@ const Feed = (props) => {
                     denunciation={d}
                     loggedUser={loggedUser}
                     showLikesSection={true}
-                    showCommentsSection={true}
+                    showResidentsCommentsSection={true}
+                    showPublicAgenciesCommentsSection={true}
                   />
                 );
               })}
