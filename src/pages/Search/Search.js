@@ -7,10 +7,7 @@ import axios from "axios";
 import "./Search.css";
 import { errorNotification } from "../../services/messages";
 import Denunciation from "../../components/Denunciation/Denunciation";
-import {
-  getUserFromDb,
-  isAnExternalUser,
-} from "../../services/user";
+import { getUserFromDb, isAnExternalUser } from "../../services/user";
 
 const Search = () => {
   const [denunciationSearchId, setDenunciationSearchId] = useState("");
@@ -71,9 +68,16 @@ const Search = () => {
             key={denunciation._id}
             denunciation={denunciation}
             loggedUser={loggedUser}
-            showLikesSection={true}
-            showResidentsCommentsSection={true}
-            showPublicAgenciesCommentsSection={true}
+            showLikesSection={denunciation.status === "rejected" ? false : true}
+            showResidentsCommentsSection={
+              denunciation.status === "rejected" ? false : true
+            }
+            showPublicAgenciesCommentsSection={
+              denunciation.status === "rejected" ? false : true
+            }
+            showDiscardedReasonSection={
+              denunciation.status === "rejected" ? true : false
+            }
           />
         ) : (
           <Card className="empty-card">

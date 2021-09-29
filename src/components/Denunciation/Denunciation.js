@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar, Card, Button, Input } from "antd";
+import { Avatar, Card, Button, Input, Tag } from "antd";
 import PropTypes from "prop-types";
 import axios from "axios";
 import {
@@ -237,6 +237,15 @@ const Denunciation = (props) => {
             <Button type="danger" onClick={props.discardDenunciationFunction}>
               <DeleteOutlined /> Descartar Denúncia
             </Button>
+          </div>
+        ) : null}
+
+        {props.showDiscardedReasonSection ? (
+          <div style={{fontSize: '1.2rem'}}>
+            Essa denúncia foi rejeitada &nbsp;
+            <Tag color="red">
+              Motivo: &nbsp;{denunciation.rejection_reason}{" "}
+            </Tag>
           </div>
         ) : null}
       </Card>
