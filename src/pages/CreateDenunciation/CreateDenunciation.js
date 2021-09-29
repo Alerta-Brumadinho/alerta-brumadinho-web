@@ -9,7 +9,11 @@ import {
   Polygon,
   useMapEvents,
 } from "react-leaflet";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  CheckOutlined,
+} from "@ant-design/icons";
 import {
   Radio,
   Form,
@@ -17,6 +21,7 @@ import {
   Select,
   Steps,
   Button,
+  Modal,
   Upload,
   message,
 } from "antd";
@@ -27,10 +32,7 @@ import {
   getToken,
   isAnExternalUser,
 } from "../../services/user";
-import {
-  successNotification,
-  errorNotification,
-} from "../../services/messages";
+import { errorNotification } from "../../services/messages";
 
 import "./CreateDenunciation.css";
 
@@ -53,7 +55,7 @@ const steps = [
 ];
 
 const brumadinhoPolygon = [
-  [-20.1358916, -44.3899424 ],
+  [-20.1358916, -44.3899424],
   [-20.009484, -43.9736273],
   [-20.3105012, -43.9722533],
 ];
@@ -101,10 +103,14 @@ const brumadinhoPolygon = [
 const CreateDenunciation = () => {
   const [nav, setNav] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [createdDenunciation, setCreatedDenunciation] = useState(null);
 
   // Categories Settings States
   const [categories, setCategories] = useState(null);
   const [photo, setPhoto] = useState(null);
+
+  //Modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Loading States
   const [categoriesLoading, setCategoriesLoading] = useState(false);
@@ -224,7 +230,7 @@ const CreateDenunciation = () => {
   const LocationMarker = () => {
     useMapEvents({
       click(e) {
-        if(isMarkerInsidePolygon(e.latlng)) {
+        if (isMarkerInsidePolygon(e.latlng)) {
           setFirstStepIsValid(true);
           setDenunciation({
             ...denunciation,
@@ -234,9 +240,10 @@ const CreateDenunciation = () => {
             },
           });
         } else {
-          errorNotification('Você deve selecionar um local dentro de Brumadinho - MG!')
+          errorNotification(
+            "Você deve selecionar um local dentro de Brumadinho - MG!"
+          );
         }
-
       },
       zoomend(e) {
         setZoom(e.target._zoom);
@@ -291,6 +298,20 @@ const CreateDenunciation = () => {
       });
   };
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setNav("/feed");
+  };
+
+  const onConfirmModal = () => {
+    setIsModalVisible(false);
+    setNav("/feed");
+  };
+
   useEffect(() => {
     getCategories();
   }, []);
@@ -303,11 +324,9 @@ const CreateDenunciation = () => {
           headers: !isAnExternalUser() ? { token: getToken() } : {},
         })
         .then((res) => {
-          setNav("/feed");
+          setCreatedDenunciation(res.data);
+          showModal();
           setRegisterDenunciationLoading(false);
-          successNotification(
-            "Denúncia registrada com sucesso. Ela está sendo verificada e em breve estará disponível no Feed."
-          );
         })
         .catch((error) => {
           setRegisterDenunciationLoading(false);
@@ -557,6 +576,30 @@ const CreateDenunciation = () => {
               </Button>
             )}
           </div>
+
+          <Modal
+            title={
+              <b>
+                <CheckOutlined style={{ color: "#338221" }} /> Denúncia
+                registrada
+              </b>
+            }
+            visible={isModalVisible}
+            onOk={onConfirmModal}
+            onCancel={closeModal}
+            cancelButtonProps={{ style: { display: "none" } }}
+            okText="Confirmar"
+          >
+            <div style={{ marginBottom: "6px" }}>
+              Sua denúncia será verificada e em
+              breve estará disponível no Feed. Anote o código abaixo para
+              procurar pela denúncia quando quiser:
+            </div>
+
+            <div style={{ fontWeight: "bold", fontSize: "1.2rem", textAlign: 'center' }}>
+              {createdDenunciation?.searchId}
+            </div>
+          </Modal>
         </div>
       </div>
     );

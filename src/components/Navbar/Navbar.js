@@ -23,7 +23,7 @@ import "./Navbar.css";
 
 const logo = require("../../assets/images/logo_512.png");
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [userLocation, setUserLocation] = useState(null);
   const [user, setUser] = useState(null);
   const [nav, setNav] = useState(null);
@@ -74,7 +74,7 @@ const Navbar = () => {
 
       <div className="navbar-menu">
         <Menu
-          defaultSelectedKeys={["feed"]}
+          defaultSelectedKeys={[props.menuOption]}
           mode="inline"
           theme="light"
           inlineCollapsed={false}
@@ -88,7 +88,7 @@ const Navbar = () => {
           </Menu.Item>
 
           {user?.type === "auditor" ? (
-            <Menu.Item key="5" icon={<EyeOutlined />}>
+            <Menu.Item key="audit" icon={<EyeOutlined />}>
               <Badge count={numberOfUnverifiedDenunciations} offset={[15, 6]}>
                 <Link to="/audit">Validar Denúncias</Link>
               </Badge>

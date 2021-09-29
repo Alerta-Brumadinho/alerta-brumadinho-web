@@ -109,7 +109,7 @@ const Audit = (props) => {
   else {
     return (
       <div className="main-layout">
-        <Navbar />
+        <Navbar menuOption="audit" />
 
         <div className="main-layout-content">
           {unverifiedDenunciations?.map((d) => (

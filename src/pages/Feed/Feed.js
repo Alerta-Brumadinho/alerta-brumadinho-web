@@ -87,7 +87,7 @@ const Feed = (props) => {
   else {
     return (
       <div className="main-layout">
-        <Navbar />
+        <Navbar menuOption="feed" />
         <div className="main-layout-content">
           <div className="order-by-container">
             <div>Ordenar por: </div>
