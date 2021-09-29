@@ -3,10 +3,8 @@ import { Link, Redirect } from "react-router-dom";
 import { Menu, Button, Badge } from "antd";
 import axios from "axios";
 import {
-  UserOutlined,
-  FileSearchOutlined,
+  SearchOutlined,
   ContainerOutlined,
-  CompassOutlined,
   HomeOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
@@ -42,7 +40,6 @@ const Navbar = () => {
     if (isAnExternalUser()) setUserLocation(getLocation());
     else {
       getUserFromDb().then((result) => {
-        console.log(result)
         setUser(result);
         setUserLocation({ uf: result.uf, city: result.city });
       });
@@ -52,9 +49,12 @@ const Navbar = () => {
   useEffect(() => {
     if (user?.type === "auditor") {
       axios
-        .get(`/denunciations/fromStatusAndCity/unverified&MG&Brumadinho&created&-1`, {
-          headers: { token: getToken() },
-        })
+        .get(
+          `/denunciations/fromStatusAndCity/unverified&MG&Brumadinho&created&-1`,
+          {
+            headers: { token: getToken() },
+          }
+        )
         .then((res) => {
           setNumberOfUnverifiedDenunciations(res.data.length);
         })
@@ -83,23 +83,12 @@ const Navbar = () => {
             <Link to="/feed">Feed de Denúncias</Link>
           </Menu.Item>
 
-          <Menu.Item key="2" icon={<FileSearchOutlined />}>
-            Minhas Denúncias
-          </Menu.Item>
-
-          <Menu.Item key="3" icon={<CompassOutlined />}>
-            Mapa de Denúncias
-          </Menu.Item>
-
-          <Menu.Item key="4" icon={<UserOutlined />}>
-            Meu Perfil
+          <Menu.Item key="search" icon={<SearchOutlined />}>
+            <Link to="/search">Buscar Denúncia</Link>
           </Menu.Item>
 
           {user?.type === "auditor" ? (
-            <Menu.Item
-              key="5"
-              icon={<EyeOutlined />}
-            >
+            <Menu.Item key="5" icon={<EyeOutlined />}>
               <Badge count={numberOfUnverifiedDenunciations} offset={[15, 6]}>
                 <Link to="/audit">Validar Denúncias</Link>
               </Badge>

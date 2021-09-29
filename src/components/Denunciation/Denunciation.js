@@ -112,7 +112,6 @@ const Denunciation = (props) => {
           headers: { token: getToken() },
         })
         .then((res) => {
-          console.log(res.data);
           if (res.data.userType === "Resident") {
             setResidentsComments(
               residentsComments.map((c) => {
@@ -134,7 +133,6 @@ const Denunciation = (props) => {
   };
 
   const handleLikeDenunciationButton = () => {
-    console.log("handle like");
     let route = "";
 
     if (isAnExternalUser()) {

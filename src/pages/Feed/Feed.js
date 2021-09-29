@@ -35,7 +35,6 @@ const Feed = (props) => {
   };
 
   const fetchData = () => {
-    console.log("next");
     axios
       .get(
         `/denunciations/fromCity/${userLocation.uf}&${
