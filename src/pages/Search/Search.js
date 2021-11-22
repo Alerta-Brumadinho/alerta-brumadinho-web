@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, Input } from "antd";
 import Navbar from "../../components/Navbar/Navbar";
-import { SearchOutlined, FolderOpenOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  FolderOpenOutlined,
+  CloseCircleOutlined,
+  ClockCircleOutlined,
+} from "@ant-design/icons";
 import axios from "axios";
 
 import "./Search.css";
@@ -63,7 +68,33 @@ const Search = () => {
           </Button>
         </div>
 
-        {denunciation ? (
+        {denunciation === null ? (
+          <Card className="empty-card">
+            <FolderOpenOutlined /> Nenhuma denúncia
+          </Card>
+        ) : null}
+
+        {denunciation?.status === "rejected" ? (
+          <Card className="empty-card">
+            <div>
+              <CloseCircleOutlined /> Essa denúncia foi descartada.
+            </div>
+
+            <div>
+              <b>Motivo:</b> {denunciation.rejection_reason}
+            </div>
+          </Card>
+        ) : null}
+
+        {denunciation?.status === "unverified" ? (
+          <Card className="empty-card">
+            <div>
+              <ClockCircleOutlined /> Essa denúncia está em verificação.
+            </div>
+          </Card>
+        ) : null}
+
+        {denunciation?.status === "accepted" ? (
           <Denunciation
             key={denunciation._id}
             denunciation={denunciation}
@@ -79,11 +110,7 @@ const Search = () => {
               denunciation.status === "rejected" ? true : false
             }
           />
-        ) : (
-          <Card className="empty-card">
-            <FolderOpenOutlined /> Nenhuma denúncia
-          </Card>
-        )}
+        ) : null}
       </div>
     </div>
   );

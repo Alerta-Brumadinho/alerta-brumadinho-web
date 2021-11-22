@@ -24,6 +24,7 @@ import {
   Modal,
   Upload,
   message,
+  Alert,
 } from "antd";
 
 import {
@@ -356,6 +357,16 @@ const CreateDenunciation = () => {
             ))}
           </Steps>
 
+          {isAnExternalUser() ? (
+            <Alert
+              className="alert-not-logged"
+              message="Você não está logado. Caso queira acompanhar a sua denúncia após a criação, faça login ou cadastre-se."
+              type="warning"
+              showIcon
+              closable
+            />
+          ) : null}
+
           <h3 className="steps-content">{steps[currentStep].content}</h3>
 
           {/* Step 1 - Occurrency Location */}
@@ -379,7 +390,10 @@ const CreateDenunciation = () => {
               />
               <LocationMarker />
               <Polygon
-                pathOptions={{ color: "transparent", fillColor: "transparent" }}
+                pathOptions={{
+                  color: "transparent",
+                  fillColor: "transparent",
+                }}
                 positions={brumadinhoPolygon}
               />
             </MapContainer>
@@ -591,12 +605,36 @@ const CreateDenunciation = () => {
             okText="Confirmar"
           >
             <div style={{ marginBottom: "6px" }}>
-              Sua denúncia será verificada e em
-              breve estará disponível no Feed. Anote o código abaixo para
-              procurar pela denúncia quando quiser:
+              Sua denúncia será verificada e em breve estará disponível no Feed.
             </div>
 
-            <div style={{ fontWeight: "bold", fontSize: "1.2rem", textAlign: 'center' }}>
+            {isAnExternalUser() ? (
+              <div className="message-not-logged">
+                <Alert
+                  message="Você registrou a denúncia sem estar logado. Caso queira
+                acompanhar o status da denúncia, anote o código abaixo!"
+                  type="warning"
+                  showIcon
+                />
+              </div>
+            ) : (
+              <div className="message-logged">
+                <Alert
+                  message="O código abaixo foi enviado para o seu e-mail. Use-o quando quiser buscar pela denúncia."
+                  type="warning"
+                  showIcon
+                />
+              </div>
+            )}
+
+            <div
+              style={{
+                marginTop: "24px",
+                fontWeight: "bold",
+                fontSize: "1.2rem",
+                textAlign: "center",
+              }}
+            >
               {createdDenunciation?.searchId}
             </div>
           </Modal>

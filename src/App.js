@@ -16,6 +16,7 @@ import ResetPassword from "./pages/Password/ResetPassword/ResetPassword";
 import CreateDenunciation from "./pages/CreateDenunciation/CreateDenunciation";
 
 import { getToken } from "./services/user";
+import MyDenunciations from "./pages/MyDenunciations/MyDenunciations";
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 // axios.defaults.baseURL = "http://localhost:3000";
@@ -50,6 +51,14 @@ function App() {
         exact
         render={(props) =>
           getToken() ? <CreateDenunciation {...props} /> : <Redirect to="/" />
+        }
+      />
+
+      <Route
+        path="/my-denunciations"
+        exact
+        render={(props) =>
+          getToken() ? <MyDenunciations {...props} /> : <Redirect to="/" />
         }
       />
 

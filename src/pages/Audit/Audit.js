@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { Modal, Select } from "antd";
+import { Input, Modal, Select } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 
@@ -21,7 +21,12 @@ const Audit = (props) => {
   const [user, setUser] = useState(null);
   const [unverifiedDenunciations, setUnverifiedDenunciations] = useState(null);
   const [isDiscardModalVisible, setIsDiscardModalVisible] = useState(false);
-  const [discardReason, setDiscardReason] = useState('1');
+  const [discardReason, setDiscardReason] = useState("Xingamento");
+  const [otherReason, setOtherReason] = useState("");
+
+  const handleOtherReasonInput = (e) => {
+    setOtherReason(e.target.value);
+  };
 
   const showDiscardModal = () => {
     setIsDiscardModalVisible(true);
@@ -29,7 +34,7 @@ const Audit = (props) => {
 
   const closeDiscardModal = () => {
     setIsDiscardModalVisible(false);
-    setDiscardReason('1');
+    setDiscardReason("Xingamento");
   };
 
   const handleDiscardReason = (value) => {
@@ -71,10 +76,14 @@ const Audit = (props) => {
   };
 
   const discardDenunciation = (denunciation) => {
+    console.log(discardReason);
     axios
       .put(
         `/denunciations/auditor/${denunciation._id}`,
-        { status: "rejected", rejection_reason: discardReason },
+        {
+          status: "rejected",
+          rejection_reason: discardReason === "Outro" ? otherReason : discardReason,
+        },
         {
           headers: { token: getToken() },
         }
@@ -146,11 +155,22 @@ const Audit = (props) => {
                   value={discardReason}
                   defaultValue={1}
                 >
-                  <Option value={'1'}>Motivo 1</Option>
-                  <Option value={'2'}>Motivo 2</Option>
-                  <Option value={'3'}>Motivo 3</Option>
-                  <Option value={'4'}>Motivo 4</Option>
+                  <Option value="Xingamento">Xingamento</Option>
+                  <Option value="Discurso de ódio">Discurso de ódio</Option>
+                  <Option value="Conteúdo inapropriado">
+                    Conteúdo inapropriado
+                  </Option>
+                  <Option value="Outro">Outro</Option>
                 </Select>
+
+                {discardReason === "Outro" ? (
+                  <Input
+                    className="other-reason-field"
+                    placeholder="Especifique o motivo..."
+                    value={otherReason}
+                    onChange={(e) => handleOtherReasonInput(e)}
+                  />
+                ) : null}
               </Modal>
             </div>
           ))}

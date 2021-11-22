@@ -11,7 +11,11 @@
 }
 
 .steps-content {
-  margin: 32px 0 12px 0;
+  margin: 16px 0 12px 0;
+}
+
+.alert-not-logged {
+  margin-top: 16px;
 }
 
 .my-stepper {

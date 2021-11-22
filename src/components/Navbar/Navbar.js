@@ -7,6 +7,7 @@ import {
   ContainerOutlined,
   HomeOutlined,
   EyeOutlined,
+  IdcardOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -86,6 +87,12 @@ const Navbar = (props) => {
           <Menu.Item key="search" icon={<SearchOutlined />}>
             <Link to="/search">Buscar Denúncia</Link>
           </Menu.Item>
+
+          {!isAnExternalUser() ? (
+            <Menu.Item key="my" icon={<IdcardOutlined />}>
+              <Link to="/my-denunciations">Minhas Denúncias</Link>
+            </Menu.Item>
+          ) : null}
 
           {user?.type === "auditor" ? (
             <Menu.Item key="audit" icon={<EyeOutlined />}>
