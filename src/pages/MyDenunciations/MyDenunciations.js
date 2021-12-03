@@ -2,7 +2,7 @@ import { Card, Skeleton } from "antd";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import Denunciation from "../../components/Denunciation/Denunciation";
 import Navbar from "../../components/Navbar/Navbar";
 
@@ -16,7 +16,7 @@ import {
 } from "../../services/user";
 
 const MyDenunciations = (props) => {
-  const [nav, setNav] = useState(null);
+  // const [nav, setNav] = useState(null);
   const [loggedUser, setLoggedUser] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
 
@@ -73,15 +73,48 @@ const MyDenunciations = (props) => {
     }
   }, []);
 
-  if (nav) return <Redirect to={nav} />;
-  else {
-    return (
-      <div className="main-layout">
-        <Navbar menuOption="audit" />
+  // if (nav) return <Redirect to={nav} />;
+  // else {
+  return (
+    <div className="main-layout">
+      <Navbar menuOption="audit" />
 
-        <div className="main-layout-content">
-          {loadingDenunciations ? (
-            <div>
+      <div className="main-layout-content">
+        {loadingDenunciations ? (
+          <div>
+            <Skeleton
+              className="skeleton-container"
+              active={true}
+              avatar={true}
+              paragraph={{ rows: 8 }}
+              round={true}
+              title={true}
+            />
+
+            <Skeleton
+              className="skeleton-container"
+              active={true}
+              avatar={true}
+              paragraph={{ rows: 8 }}
+              round={true}
+              title={true}
+            />
+
+            <Skeleton
+              className="skeleton-container"
+              active={true}
+              avatar={true}
+              paragraph={{ rows: 8 }}
+              round={true}
+              title={true}
+            />
+          </div>
+        ) : (
+          <InfiniteScroll
+            dataLength={denunciations.length}
+            next={fetchData}
+            hasMore={hasMoreDenunciations}
+            loader={
               <Skeleton
                 className="skeleton-container"
                 active={true}
@@ -90,65 +123,32 @@ const MyDenunciations = (props) => {
                 round={true}
                 title={true}
               />
-
-              <Skeleton
-                className="skeleton-container"
-                active={true}
-                avatar={true}
-                paragraph={{ rows: 8 }}
-                round={true}
-                title={true}
-              />
-
-              <Skeleton
-                className="skeleton-container"
-                active={true}
-                avatar={true}
-                paragraph={{ rows: 8 }}
-                round={true}
-                title={true}
-              />
-            </div>
-          ) : (
-            <InfiniteScroll
-              dataLength={denunciations.length}
-              next={fetchData}
-              hasMore={hasMoreDenunciations}
-              loader={
-                <Skeleton
-                  className="skeleton-container"
-                  active={true}
-                  avatar={true}
-                  paragraph={{ rows: 8 }}
-                  round={true}
-                  title={true}
+            }
+            endMessage={
+              <Card className="that-is-call-card">
+                Isso é tudo! &nbsp;
+                <CheckCircleOutlined style={{ color: "#338221" }} />
+              </Card>
+            }
+          >
+            {denunciations?.map((d) => {
+              return (
+                <Denunciation
+                  key={d._id}
+                  denunciation={d}
+                  loggedUser={loggedUser}
+                  showLikesSection={true}
+                  showResidentsCommentsSection={true}
+                  showPublicAgenciesCommentsSection={true}
                 />
-              }
-              endMessage={
-                <Card className="that-is-call-card">
-                  Isso é tudo! &nbsp;
-                  <CheckCircleOutlined style={{ color: "#338221" }} />
-                </Card>
-              }
-            >
-              {denunciations?.map((d) => {
-                return (
-                  <Denunciation
-                    key={d._id}
-                    denunciation={d}
-                    loggedUser={loggedUser}
-                    showLikesSection={true}
-                    showResidentsCommentsSection={true}
-                    showPublicAgenciesCommentsSection={true}
-                  />
-                );
-              })}
-            </InfiniteScroll>
-          )}
-        </div>
+              );
+            })}
+          </InfiniteScroll>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 };
+// };
 
 export default MyDenunciations;
