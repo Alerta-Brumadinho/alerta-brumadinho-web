@@ -35,7 +35,7 @@
     position: fixed !important;
     left: auto !important;
     top: auto !important;
-    right: 48px !important;
+    right: 24px !important;
     bottom: 62px !important;
   }
 
@@ -45,6 +45,7 @@
 
   .skeleton-container {
     width: 90vw !important;
+    margin-left: 5vw !important;
   }
 
   .that-is-call-card {

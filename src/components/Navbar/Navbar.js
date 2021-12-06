@@ -81,23 +81,35 @@ const Navbar = (props) => {
           inlineCollapsed={false}
         >
           <Menu.Item key="feed" icon={<ContainerOutlined />}>
-            <Link to="/feed">Feed de Denúncias</Link>
+            <Link to="/feed" className="menu-link-mobile"></Link>
+            <Link to="/feed" className="menu-link-desktop">
+              Feed de Denúncias
+            </Link>
           </Menu.Item>
 
           <Menu.Item key="search" icon={<SearchOutlined />}>
-            <Link to="/search">Buscar Denúncia</Link>
+            <Link to="/search" className="menu-link-mobile"></Link>
+            <Link to="/search" className="menu-link-desktop">
+              Buscar Denúncia
+            </Link>
           </Menu.Item>
 
           {!isAnExternalUser() ? (
-            <Menu.Item key="my" icon={<IdcardOutlined />}>
-              <Link to="/my-denunciations">Minhas Denúncias</Link>
+            <Menu.Item key="my-denunciations" icon={<IdcardOutlined />}>
+              <Link to="/my-denunciations" className="menu-link-mobile"></Link>
+              <Link to="/my-denunciations" className="menu-link-desktop">
+                Minhas Denúncias
+              </Link>
             </Menu.Item>
           ) : null}
 
           {user?.type === "auditor" ? (
             <Menu.Item key="audit" icon={<EyeOutlined />}>
               <Badge count={numberOfUnverifiedDenunciations} offset={[15, 6]}>
-                <Link to="/audit">Validar Denúncias</Link>
+                <Link to="/audit" className="menu-link-mobile"></Link>
+                <Link to="/audit" className="menu-link-desktop">
+                  Validar Denúncias
+                </Link>
               </Badge>
             </Menu.Item>
           ) : null}
