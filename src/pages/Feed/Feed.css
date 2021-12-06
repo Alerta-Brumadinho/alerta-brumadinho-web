@@ -9,7 +9,7 @@
 }
 
 .create-denunciation-button {
-  position: absolute;
+  position: absolute !important;
   left: calc(260px + 12vw);
   top: 32px;
 }
@@ -35,7 +35,7 @@
     position: fixed !important;
     left: auto !important;
     top: auto !important;
-    right: 24px !important;
+    right: 48px !important;
     bottom: 62px !important;
   }
 
@@ -44,10 +44,15 @@
   }
 
   .skeleton-container {
-    width: 80vw !important;
+    width: 90vw !important;
   }
 
   .that-is-call-card {
     width: 80vw !important;
+  }
+
+  .order-by-container {
+    width: 90vw !important;
+    margin-left: 5vw !important;
   }
 }

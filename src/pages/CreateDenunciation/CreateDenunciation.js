@@ -51,7 +51,7 @@ const steps = [
   },
   {
     title: "Anexo",
-    content: "Adicione uma foto ou vídeo do ocorrido, caso tenha.",
+    content: "Adicione uma foto do ocorrido, caso tenha.",
   },
 ];
 
@@ -342,35 +342,40 @@ const CreateDenunciation = () => {
       <div className="main-layout">
         <Navbar />
 
-        <div className="main-layout-content">
-          <Steps
-            className="my-stepper"
-            current={currentStep}
-            direction="horizontal"
-            responsive={false}
-          >
-            {steps.map((item) => (
-              <Step
-                key={item.title}
-                title={currentStep === steps.indexOf(item) ? item.title : null}
+        <div className="main-layout-content create-denunciation-container">
+          <div className="steps-container">
+            <Steps
+              className="my-stepper"
+              current={currentStep}
+              direction="horizontal"
+              responsive={false}
+            >
+              {steps.map((item) => (
+                <Step
+                  key={item.title}
+                  title={
+                    currentStep === steps.indexOf(item) ? item.title : null
+                  }
+                />
+              ))}
+            </Steps>
+
+            {isAnExternalUser() ? (
+              <Alert
+                className="alert-not-logged"
+                message="Você não está logado. Caso queira acompanhar a sua denúncia após a criação, faça login ou cadastre-se."
+                type="warning"
+                showIcon
+                closable
               />
-            ))}
-          </Steps>
+            ) : null}
 
-          {isAnExternalUser() ? (
-            <Alert
-              className="alert-not-logged"
-              message="Você não está logado. Caso queira acompanhar a sua denúncia após a criação, faça login ou cadastre-se."
-              type="warning"
-              showIcon
-              closable
-            />
-          ) : null}
-
-          <h3 className="steps-content">{steps[currentStep].content}</h3>
+            <h3 className="steps-content">{steps[currentStep].content}</h3>
+          </div>
 
           {/* Step 1 - Occurrency Location */}
           {currentStep === 0 ? (
+            <div className="map-create-denunciation">
             <MapContainer
               center={
                 denunciation.location.coordinates
@@ -397,6 +402,7 @@ const CreateDenunciation = () => {
                 positions={brumadinhoPolygon}
               />
             </MapContainer>
+            </div>
           ) : /* Step 2 - Basic Info */
           currentStep === 1 ? (
             <div>
@@ -455,7 +461,10 @@ const CreateDenunciation = () => {
                     notFoundContent={<div> Nenhuma Categoria </div>}
                     getPopupContainer={(trigger) => trigger.parentElement}
                     onSelect={(value, option) =>
-                      setDenunciation({ ...denunciation, category: option.key })
+                      setDenunciation({
+                        ...denunciation,
+                        category: option.key,
+                      })
                     }
                   >
                     {categories.map((category) => (
