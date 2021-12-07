@@ -1,3 +1,15 @@
+@media only screen and (max-width: 500px) {
+  .searchbar-container {
+    width: 90vw !important;
+    margin-left: 5vw !important;
+  }
+
+  .empty-card {
+    width: 90vw !important;
+    margin-left: 5vw !important;
+  }
+}
+
 .searchbar-container {
   width: 40vw;
   margin-bottom: 24px;

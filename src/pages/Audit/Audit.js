@@ -82,7 +82,8 @@ const Audit = (props) => {
         `/denunciations/auditor/${denunciation._id}`,
         {
           status: "rejected",
-          rejection_reason: discardReason === "Outro" ? otherReason : discardReason,
+          rejection_reason:
+            discardReason === "Outro" ? otherReason : discardReason,
         },
         {
           headers: { token: getToken() },

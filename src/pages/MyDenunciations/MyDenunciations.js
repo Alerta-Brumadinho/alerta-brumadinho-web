@@ -13,6 +13,7 @@ import {
   isAnExternalUser,
   getLocation,
   getUserFromDb,
+  getToken,
 } from "../../services/user";
 
 const MyDenunciations = (props) => {
@@ -27,14 +28,16 @@ const MyDenunciations = (props) => {
   const fetchData = () => {
     axios
       .get(
-        `/denunciations/fromCity/${userLocation.uf}&${
-          userLocation.city
-        }&created&-1/${denunciations[denunciations.length - 1].created}/${
-          denunciations[denunciations.length - 1]._id
-        }`
+        `/denunciations/fromEmail/${loggedUser.email}&created&-1/${
+          denunciations[denunciations.length - 1].created
+        }/${denunciations[denunciations.length - 1]._id}`,
+        {
+          headers: { token: getToken() },
+        }
       )
       .then((res) => {
         console.log(res.data);
+        console.log(userLocation);
         setDenunciations(denunciations.concat(res.data));
 
         if (!res.data.length) {
@@ -47,11 +50,12 @@ const MyDenunciations = (props) => {
   };
 
   useEffect(() => {
-    if (userLocation) {
+    if (loggedUser) {
+      console.log(loggedUser.email);
       axios
-        .get(
-          `/denunciations/fromCity/${userLocation.uf}&${userLocation.city}&created&-1`
-        )
+        .get(`/denunciations/fromEmail/${loggedUser.email}&created&-1`, {
+          headers: { token: getToken() },
+        })
         .then((res) => {
           console.log(res.data);
           setDenunciations(res.data);
@@ -61,7 +65,7 @@ const MyDenunciations = (props) => {
           errorNotification();
         });
     }
-  }, [userLocation]);
+  }, [loggedUser]);
 
   useEffect(() => {
     if (isAnExternalUser()) setUserLocation(getLocation());
