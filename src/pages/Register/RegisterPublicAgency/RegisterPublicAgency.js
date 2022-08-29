@@ -30,6 +30,11 @@ import {
   successNotification,
   errorNotification,
 } from "../../../services/messages";
+import {
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_UPLOAD_PRESET,
+  CLOUDINARY_URL,
+} from "../../../services/consts";
 
 // const { Option } = Select;
 const { Title, Text } = Typography;
@@ -110,13 +115,13 @@ const RegisterPublicAgency = (props) => {
     setSubmit({ disabled: true });
 
     const formData = new FormData();
-    formData.append("api_key", "131724773834346");
-    formData.append("upload_preset", "jpdyw4h7");
+    formData.append("api_key", CLOUDINARY_API_KEY);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
     formData.append("file", file);
     formData.append("folder", "institution-pictures");
 
     axios
-      .post("https://api.cloudinary.com/v1_1/brumadinho/upload", formData, {
+      .post(CLOUDINARY_URL, formData, {
         headers: { "X-Requested-With": "XMLHttpRequest" },
       })
       .then((res) => {

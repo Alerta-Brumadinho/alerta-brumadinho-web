@@ -2,6 +2,9 @@ import React from "react";
 import axios from "axios";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { getToken } from "./services/user";
+import { BACKEND_URL } from "./services/consts";
+
+import "./App.less";
 
 import Login from "./pages/Login/Login";
 import Feed from "./pages/Feed/Feed";
@@ -14,9 +17,7 @@ import ResetPassword from "./pages/Password/ResetPassword/ResetPassword";
 import CreateDenunciation from "./pages/CreateDenunciation/CreateDenunciation";
 import MyDenunciations from "./pages/MyDenunciations/MyDenunciations";
 
-import "./App.less";
-
-axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
+axios.defaults.baseURL = BACKEND_URL;
 
 function App() {
   return (
