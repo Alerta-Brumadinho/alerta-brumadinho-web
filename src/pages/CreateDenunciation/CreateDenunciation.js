@@ -61,46 +61,6 @@ const brumadinhoPolygon = [
   [-20.3105012, -43.9722533],
 ];
 
-// const brumadinhoPolygon = [
-//   [-44.3090435, -20.1881017],
-//   [-44.3082968, -20.1926129],
-//   [-44.3000529, -20.20679],
-//   [-44.295931, -20.2274089],
-//   [-44.2773823, -20.2409386],
-//   [-44.2588336, -20.2589763],
-//   [-44.234102, -20.2518903],
-//   [-44.2011266, -20.2486693],
-//   [-44.1660901, -20.2441598],
-//   [-44.1516634, -20.2589763],
-//   [-44.1365496, -20.2866731],
-//   [-44.1276188, -20.3143648],
-//   [-44.1056351, -20.3272431],
-//   [-44.0747206, -20.3362572],
-//   [-44.0252575, -20.3375449],
-//   [-43.9730463, -20.3259553],
-//   [-43.9448798, -20.3105012],
-//   [-43.9517497, -20.2840968],
-//   [-43.9709854, -20.2441598],
-//   [-43.9792292, -20.1984128],
-//   [-43.9669231, -20.1494293],
-//   [-43.97448, -20.1171949],
-//   [-43.9875328, -20.093982],
-//   [-43.9847848, -20.0507711],
-//   [-44.0040205, -20.0578663],
-//   [-44.0631015, -20.0701208],
-//   [-44.097451, -20.0752803],
-//   [-44.1256175, -20.0752803],
-//   [-44.1620279, -20.0701208],
-//   [-44.215613, -20.0759252],
-//   [-44.2369097, -20.0836641],
-//   [-44.2719461, -20.0888231],
-//   [-44.2877468, -20.1036545],
-//   [-44.3310271, -20.1152606],
-//   [-44.338584, -20.1275106],
-//   [-44.3482018, -20.161032],
-//   [-44.3090435, -20.1881017],
-// ];
-
 const CreateDenunciation = () => {
   const [nav, setNav] = useState(null);
   const [currentStep, setCurrentStep] = useState(0);
@@ -376,32 +336,32 @@ const CreateDenunciation = () => {
           {/* Step 1 - Occurrency Location */}
           {currentStep === 0 ? (
             <div className="map-create-denunciation">
-            <MapContainer
-              center={
-                denunciation.location.coordinates
-                  ? {
-                      lat: denunciation.location.coordinates[0],
-                      lng: denunciation.location.coordinates[1],
-                    }
-                  : { lat: -20.1182, lng: -44.201 }
-              }
-              zoom={zoom}
-              zoomControl={true}
-              className="map-container"
-            >
-              <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <LocationMarker />
-              <Polygon
-                pathOptions={{
-                  color: "transparent",
-                  fillColor: "transparent",
-                }}
-                positions={brumadinhoPolygon}
-              />
-            </MapContainer>
+              <MapContainer
+                center={
+                  denunciation.location.coordinates
+                    ? {
+                        lat: denunciation.location.coordinates[0],
+                        lng: denunciation.location.coordinates[1],
+                      }
+                    : { lat: -20.1182, lng: -44.201 }
+                }
+                zoom={zoom}
+                zoomControl={true}
+                className="map-container"
+              >
+                <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <LocationMarker />
+                <Polygon
+                  pathOptions={{
+                    color: "transparent",
+                    fillColor: "transparent",
+                  }}
+                  positions={brumadinhoPolygon}
+                />
+              </MapContainer>
             </div>
           ) : /* Step 2 - Basic Info */
           currentStep === 1 ? (

@@ -2,7 +2,6 @@ import { Card, Skeleton } from "antd";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-// import { Redirect } from "react-router-dom";
 import Denunciation from "../../components/Denunciation/Denunciation";
 import Navbar from "../../components/Navbar/Navbar";
 
@@ -17,7 +16,6 @@ import {
 } from "../../services/user";
 
 const MyDenunciations = (props) => {
-  // const [nav, setNav] = useState(null);
   const [loggedUser, setLoggedUser] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
 
@@ -77,8 +75,6 @@ const MyDenunciations = (props) => {
     }
   }, []);
 
-  // if (nav) return <Redirect to={nav} />;
-  // else {
   return (
     <div className="main-layout">
       <Navbar menuOption="audit" />
@@ -153,6 +149,5 @@ const MyDenunciations = (props) => {
     </div>
   );
 };
-// };
 
 export default MyDenunciations;

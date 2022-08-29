@@ -1,12 +1,10 @@
 import React from "react";
 import axios from "axios";
 import { Switch, Route, Redirect } from "react-router-dom";
-
-import "./App.less";
+import { getToken } from "./services/user";
 
 import Login from "./pages/Login/Login";
 import Feed from "./pages/Feed/Feed";
-
 import Audit from "./pages/Audit/Audit";
 import Search from "./pages/Search/Search";
 import RegisterResident from "./pages/Register/RegisterResident/RegisterResident";
@@ -14,12 +12,11 @@ import RegisterPublicAgency from "./pages/Register/RegisterPublicAgency/Register
 import ForgotPassword from "./pages/Password/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/Password/ResetPassword/ResetPassword";
 import CreateDenunciation from "./pages/CreateDenunciation/CreateDenunciation";
-
-import { getToken } from "./services/user";
 import MyDenunciations from "./pages/MyDenunciations/MyDenunciations";
 
+import "./App.less";
+
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
-// axios.defaults.baseURL = "http://localhost:3000";
 
 function App() {
   return (

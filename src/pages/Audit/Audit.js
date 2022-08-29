@@ -3,16 +3,16 @@ import { Redirect } from "react-router-dom";
 import { Input, Modal, Select } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
-
-import "./Audit.css";
-
-import Navbar from "../../components/Navbar/Navbar";
-import Denunciation from "../../components/Denunciation/Denunciation";
 import { getUserFromDb, getToken } from "../../services/user";
 import {
   errorNotification,
   successNotification,
 } from "../../services/messages";
+
+import Navbar from "../../components/Navbar/Navbar";
+import Denunciation from "../../components/Denunciation/Denunciation";
+
+import "./Audit.css";
 
 const { Option } = Select;
 
