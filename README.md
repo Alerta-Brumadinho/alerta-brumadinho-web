@@ -1,19 +1,20 @@
-Alerta Brumadinho
+# Alerta Brumadinho
 
-- Tecnologias usadas:
-- React v16.13.1
-- npm v8.3.0
+Uma plataforma aberta para registrar ocorrências ambientais em Brumadinho - MG.
 
-Como rodar:
+### [🌍 DEMO](https://alertabrumadinho.netlify.app/)
 
-- Instalar o gerenciador de pacotes npm (ou outro da sua preferência)
-- npm install
-- npm start
-- acessar: localhost:3000
+### Stack utilizada:
 
-Pré-requisitos:
+- React 16.13.1
+- npm 8.3.0
 
-- Criar um arquivo .env na raiz
-- Adicionar a seguinte variável: 
-    REACT_APP_BACKEND_URL = 'https://alerta-brumadinho-api.herokuapp.com'
-- Caso esteja rodando o back-end local, apontar essa variável para a porta local onde o back está rodando
+### Etapas para rodar o projeto:
+
+1. Execute o `git clone https://github.com/lucasvribeiro/maganets.git`
+2. Acesse o diretório do projeto `cd alerta-brumadinho-web`
+3. Crie um arquivo `.env` na raiz do projeto
+4. Dentro do arquivo `.env` insira a seguinte variável responsável pela url do backend: <br />`REACT_APP_BACKEND_URL = 'https://alerta-brumadinho-api.herokuapp.com'`
+5. Execute `npm i` ou `npm install` para instalar as dependências
+6. Execute `npm start`
+7. Abra a aplicação em `localhost:3000`
