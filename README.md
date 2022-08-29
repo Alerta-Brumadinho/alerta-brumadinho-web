@@ -1,8 +1,12 @@
-# Alerta Brumadinho
+# Alerta Brumadinho | [Acessar](https://alertabrumadinho.netlify.app/)
 
-Uma plataforma aberta para registrar ocorrências ambientais em Brumadinho - MG.
+Esse repositório contém o código-fonte do **front-end** do Alerta Brumadinho, uma plataforma aberta para registrar ocorrências ambientais em Brumadinho - MG.
 
-### [🌍 DEMO](https://alertabrumadinho.netlify.app/)
+Esse projeto foi desenvolvido inicialmente dentro do programa Mover-se na Web - Articulação Pró-Brumadinho, que surgiu em 2019, através da parceria do Centro de Estudos sobre Tecnologias Web (Ceweb.br) e do Ministério da Ciência, Tecnologia e Inovações (MCTI), com apoio do Núcleo de Informação e Coordenação do Ponto BR (NIC.br) e Comitê Gestor da Internet no Brasil (CGI.br). Tem como objetivo ajudar a comunidade da cidade de Brumadinho/MG, atingida pelo rompimento da barragem no mesmo ano, através do fomento de projetos que utilizem tecnologias abertas da Web e empreendedorismo. Dessa forma, o projeto Alerta Brumadinho foi um dos projetos selecionados e desenvolvido desse programa.
+
+### Equipe:
+
+Os desenvolvedores do projeto são: Lucas Vinicius Ribeiro, Lucas Souza Santos e Igor Scaliante Wiese.
 
 ### Stack utilizada:
 
