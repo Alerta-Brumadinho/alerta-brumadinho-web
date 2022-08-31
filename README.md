@@ -61,3 +61,5 @@ $ npm start
 
 # O servidor inciará na porta:3000 - acesse <http://localhost:3000>
 ```
+
+### Autores: [Lucas Vinicius Ribeiro](https://github.com/lucasvribeiro) e [Lucas Souza Santos](https://github.com/souzalucas).
