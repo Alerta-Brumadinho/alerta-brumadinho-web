@@ -1,19 +1,13 @@
 <h1 align="center"><img src="https://i.ibb.co/JzDvNwN/AB-Capa.png" alt="Alerta Brumadinho" width="100%" height="auto"></h1>
 
-# Alerta Brumadinho | [Acessar](https://alertabrumadinho.netlify.app/)
+# Alerta Brumadinho - Solução Tecnológica para Denúncia de Crimes Ambientais em Brumadinho, Minas Gerais
 
-### Informações Gerais
+## Informações Gerais
 Este repositório contém o código-fonte do **front-end** do Alerta Brumadinho, uma plataforma aberta para registrar ocorrências ambientais em Brumadinho - MG. Para mais informações sobre o projeto, veja: https://github.com/cewebbr/mover-se_alerta-brumadinho.
-
-Este projeto foi desenvolvido, inicialmente, dentro do programa Mover-se na Web - Articulação Pró-Brumadinho, que surgiu em 2019, através da parceria do Centro de Estudos sobre Tecnologias Web (Ceweb.br) e do Ministério da Ciência, Tecnologia e Inovações (MCTI), com apoio do Núcleo de Informação e Coordenação do Ponto BR (NIC.br) e Comitê Gestor da Internet no Brasil (CGI.br). O programa tem como objetivo ajudar a comunidade da cidade de Brumadinho/MG, atingida pelo rompimento da barragem no mesmo ano, através do fomento de projetos que utilizem tecnologias abertas da Web e empreendedorismo.
 
 [![Software License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/cewebbr/mover-se_alerta-brumadinho)
 
-### Equipe
-
-Os desenvolvedores do projeto são: [Lucas Vinicius Ribeiro](https://github.com/lucasvribeiro), [Lucas Souza Santos](https://github.com/souzalucas) e [Igor Scaliante Wiese](https://github.com/igorwiese).
-
-# Instalação e Execução
+## Instalação e Execução
 
 ### Tecnologias utilizadas
 
