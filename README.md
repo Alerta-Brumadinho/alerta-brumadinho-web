@@ -47,10 +47,10 @@ REACT_APP_BACKEND_URL = ''
 # Url da API do Cloudinary onde serão hospedadas as imagens da aplicação (foto de perfil de usuário e imagens das denúncias)
 REACT_APP_CLOUDINARY_URL = ''
 
-# API Key disponibilizada pelo Cloudinary
+# API Key do Cloudinary
 REACT_APP_CLOUDINARY_API_KEY = ''
 
-# Valor do upload preset disponibilizado pelo Cloudinary
+# Valor do upload preset do Cloudinary
 REACT_APP_CLOUDINARY_UPLOAD_PRESET = ''
 ```
 
