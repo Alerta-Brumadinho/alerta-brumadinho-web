@@ -45,13 +45,13 @@ Abra o arquivo `.env` na raiz do diretório /frontend e configure as variáveis 
 REACT_APP_BACKEND_URL = ''
 
 # Url da API do Cloudinary onde serão hospedadas as imagens da aplicação (foto de perfil de usuário e imagens das denúncias)
-REACT_APP_CLOUDINARY_URL = ''
+REACT_APP_CLOUDINARY_URL=''
 
 # API Key do Cloudinary
-REACT_APP_CLOUDINARY_API_KEY = ''
+REACT_APP_CLOUDINARY_API_KEY=''
 
 # Valor do upload preset do Cloudinary
-REACT_APP_CLOUDINARY_UPLOAD_PRESET = ''
+REACT_APP_CLOUDINARY_UPLOAD_PRESET=''
 ```
 
 ####  3. Executando a aplicação
