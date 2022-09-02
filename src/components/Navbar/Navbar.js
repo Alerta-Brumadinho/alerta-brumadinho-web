@@ -21,7 +21,7 @@ import { errorNotification } from "../../services/messages";
 
 import "./Navbar.css";
 
-const logo = require("../../assets/images/logo_512.png");
+const logo = require("../../assets/images/logo.png");
 
 const Navbar = (props) => {
   const [userLocation, setUserLocation] = useState(null);

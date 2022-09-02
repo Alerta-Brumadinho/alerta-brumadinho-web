@@ -14,7 +14,7 @@ import {
 
 const { Option } = Select;
 const { Title, Text } = Typography;
-const logo = require("../../assets/images/logo_512.png");
+const logo = require("../../assets/images/logo.png");
 
 const SelectLocation = () => {
   const [ufs, setUfs] = useState([]);
